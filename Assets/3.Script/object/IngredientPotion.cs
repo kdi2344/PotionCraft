@@ -23,12 +23,12 @@ public class IngredientPotion : MonoBehaviour
             made.GetComponent<Rigidbody2D>().gravityScale = 0;
             if (made.transform.childCount > 0)
             {
-                for (int i = 0; i < transform.childCount; i++)
+                for (int i = 0; i < made.transform.childCount; i++)
                 {
-                    positions.Add(transform.GetChild(i).localPosition);
-                    rotations.Add(transform.GetChild(i).localEulerAngles);
+                    positions.Add(made.transform.GetChild(i).localPosition);
+                    rotations.Add(made.transform.GetChild(i).localEulerAngles);
                     made.transform.GetChild(i).GetComponent<Rigidbody2D>().gravityScale = 0;
-                    made.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingOrder = 999;
+                    if (made.transform.GetChild(i).GetComponent<SpriteRenderer>()) made.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingOrder = 999;
                 }
             }
             else
@@ -48,14 +48,14 @@ public class IngredientPotion : MonoBehaviour
         made.GetComponent<IngreDrag>().isDrag = false;
         if (!made.GetComponent<IngreDrag>().isInven)
         {
-            made.GetComponent<SpriteRenderer>().sortingOrder = 7;
+            made.GetComponent<SpriteRenderer>().sortingOrder = 10;
             made.GetComponent<Rigidbody2D>().gravityScale = 1;
             if (made.transform.childCount > 0)
             {
-                for (int i = 0; i < transform.childCount; i++)
+                for (int i = 0; i < made.transform.childCount; i++)
                 {
                     made.transform.GetChild(i).GetComponent<Rigidbody2D>().gravityScale = 1;
-                    made.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingOrder = 6;
+                    if (made.transform.GetChild(i).GetComponent<SpriteRenderer>()) made.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingOrder = 9;
                 }
             }
             else
