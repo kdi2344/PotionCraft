@@ -44,24 +44,22 @@ public class GrinderHandle : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("ingredient"))
         {
-            if (collision.gameObject.GetComponent<DragDrop>())
+            if (collision.transform.childCount > 0)
             {
-                pile.transform.GetChild(0).GetComponent<SpriteRenderer>().color = colors[collision.gameObject.GetComponent<DragDrop>().ingreType];
-            }
-            collision.gameObject.GetComponent<Animator>().SetTrigger("grind");
-            if (collision.gameObject.GetComponent<DragDrop>())
-            {
-                pile.GetComponent<Animator>().SetTrigger("grind");
-                collision.gameObject.GetComponent<DragDrop>().grinding += 1;
-                CheckPile(collision.gameObject.GetComponent<DragDrop>());
-                if (collision.gameObject.GetComponent<DragDrop>().grinding > 9)
-                {
-                    collision.gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
-                }
+                GameObject activeObject = collision.gameObject;
+                pile.transform.GetChild(0).GetComponent<SpriteRenderer>().color = colors[collision.transform.GetChild(collision.transform.childCount -1).GetComponent<ChildData>().ingreType];
+                activeObject.GetComponent<Animator>().SetTrigger("grind");
+                Debug.Log("재료 갈리는중");
+                activeObject.transform.GetChild(activeObject.transform.childCount-1) .GetComponent<ChildData>().grinding += 1;
+                CheckPile(activeObject.transform.GetChild(activeObject.transform.childCount - 1).GetComponent<ChildData>());
+                //if (collision.gameObject.GetComponent<DragDrop>().grinding > 9)
+                //{
+                //    collision.gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
+                //}
             }
         }
     }
-    private void CheckPile(DragDrop drag)
+    private void CheckPile(ChildData drag)
     {
         float y;
         if (drag.grinding == 1)

@@ -27,7 +27,7 @@ public class IngredientPotion : MonoBehaviour
                 {
                     positions.Add(made.transform.GetChild(i).localPosition);
                     rotations.Add(made.transform.GetChild(i).localEulerAngles);
-                    made.transform.GetChild(i).GetComponent<Rigidbody2D>().gravityScale = 0;
+                    if (made.transform.GetChild(i).GetComponent<Rigidbody2D>()) made.transform.GetChild(i).GetComponent<Rigidbody2D>().gravityScale = 0;
                     if (made.transform.GetChild(i).GetComponent<SpriteRenderer>()) made.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingOrder = 999;
                 }
             }
@@ -45,8 +45,8 @@ public class IngredientPotion : MonoBehaviour
     }
     public void OnMouseUp()
     {
-        made.GetComponent<IngreDrag>().isDrag = false;
-        if (!made.GetComponent<IngreDrag>().isInven)
+        FindObjectOfType<DragTest>().isDrag = false;
+        if (!FindObjectOfType<DragTest>().isInven)
         {
             made.GetComponent<SpriteRenderer>().sortingOrder = 10;
             made.GetComponent<Rigidbody2D>().gravityScale = 1;
@@ -54,7 +54,7 @@ public class IngredientPotion : MonoBehaviour
             {
                 for (int i = 0; i < made.transform.childCount; i++)
                 {
-                    made.transform.GetChild(i).GetComponent<Rigidbody2D>().gravityScale = 1;
+                    if (made.transform.GetChild(i).GetComponent<Rigidbody2D>()) made.transform.GetChild(i).GetComponent<Rigidbody2D>().gravityScale = 1;
                     if (made.transform.GetChild(i).GetComponent<SpriteRenderer>()) made.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingOrder = 9;
                 }
             }
@@ -66,9 +66,9 @@ public class IngredientPotion : MonoBehaviour
         }
         else //마우스 인벤토리 위에서 놓으면 다시 들어가게
         {
-            InvenItemManager.instance.IngreQuantity[made.GetComponent<IngreDrag>().ingreType]++;
-            InvenItemManager.instance.UpdateInventory();
-            Destroy(made);
+            //InvenItemManager.instance.IngreQuantity[made.transform.GetChild(made.transform.childCount-1).GetComponent<ChildData>().ingreType]++;
+            //InvenItemManager.instance.UpdateInventory();
+            //Destroy(made);
             made = null;
         }
     }
@@ -79,8 +79,11 @@ public class IngredientPotion : MonoBehaviour
         made.GetComponent<Rigidbody2D>().angularVelocity = 0;
         for (int i = 0; i < made.transform.childCount; i++)
         {
-            made.transform.GetChild(i).GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            made.transform.GetChild(i).GetComponent<Rigidbody2D>().angularVelocity = 0;
+            if (made.transform.GetChild(i).GetComponent<Rigidbody2D>())
+            {
+                made.transform.GetChild(i).GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                made.transform.GetChild(i).GetComponent<Rigidbody2D>().angularVelocity = 0;
+            }
         }
     }
     Vector3 GetMousePos()

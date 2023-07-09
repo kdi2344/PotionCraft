@@ -11,27 +11,27 @@ public class GrinderCollider : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("ingredient") && collision.GetComponent<IngreDrag>())
+        if (collision.CompareTag("ingredient") && collision.transform.childCount > 0)
         {
-            if (collision.GetComponent<IngreDrag>().grinding > 0 && !collision.GetComponent<IngreDrag>().isDrag)
+            if (collision.transform.GetChild(collision.transform.childCount-1).GetComponent<ChildData>().grinding > 0 && collision.transform.GetChild(collision.transform.childCount - 1).GetComponent<ChildData>().isDrag)
             {
-                collision.transform.GetChild(collision.transform.childCount - 1).gameObject.SetActive(false);
+                collision.transform.GetChild(collision.transform.childCount - 2).gameObject.SetActive(false); //동그란거 끄기
                 pile.SetActive(true);
             }
-            if (activeIngredient != null && activeIngredient != collision)
-            {
-                ResetPile(activeIngredient);
-            }
-            collision.GetComponent<IngreDrag>().isInGrinder = true;
+            //if (activeIngredient != null && activeIngredient != collision)
+            //{
+            //    ResetPile(activeIngredient);
+            //}
+            collision.transform.GetChild(collision.transform.childCount - 1).GetComponent<ChildData>().isInGrinder = true;
             activeIngredient = collision.gameObject;
-            pile.transform.GetChild(0).GetComponent<SpriteRenderer>().color = colors[collision.GetComponent<IngreDrag>().ingreType];
+            pile.transform.GetChild(0).GetComponent<SpriteRenderer>().color = colors[collision.transform.GetChild(collision.transform.childCount - 1).GetComponent<ChildData>().ingreType];
         }
 
-        if (collision.CompareTag("handle") && activeIngredient!= null && activeIngredient.GetComponent<IngreDrag>().isInGrinder)
+        if (collision.CompareTag("handle") && activeIngredient!= null && activeIngredient.transform.GetChild(activeIngredient.transform.childCount - 1).GetComponent<ChildData>().isInGrinder)
         {
             activeIngredient.GetComponent<Animator>().SetTrigger("grind");
-            activeIngredient.GetComponent<IngreDrag>().grinding += 1;
-            CheckPile(activeIngredient.GetComponent<IngreDrag>());
+            activeIngredient.transform.GetChild(activeIngredient.transform.childCount - 1).GetComponent<ChildData>().grinding += 1;
+            CheckPile(activeIngredient.transform.GetChild(activeIngredient.transform.childCount - 1).GetComponent<ChildData>());
         }
         if (collision.gameObject.CompareTag("handle"))
         {
@@ -41,22 +41,22 @@ public class GrinderCollider : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("ingredient") && collision.GetComponent<IngreDrag>()) //갈던 애를 빼내고 새로 갈려고 한다면? 해보고 예외처리 하기
+        if (collision.CompareTag("ingredient")) //갈던 애를 빼내고 새로 갈려고 한다면? 해보고 예외처리 하기
         {
-            collision.GetComponent<IngreDrag>().isInGrinder = false;
+            //collision.transform.GetChild(collision.transform.childCount - 1).GetComponent<ChildData>().isInGrinder = false;
             activeIngredient = null;
         }
     }
 
     private void ResetPile(GameObject active)
     {
-        if (active.GetComponent<IngreDrag>().grinding == 0)
+        if (active.transform.GetChild(active.transform.childCount - 1).GetComponent<ChildData>().grinding == 0)
         {
             pile.transform.localPosition = new Vector3(pile.transform.localPosition.x, -3, 0);
         }
         pile.SetActive(true);
     }
-    private void CheckPile(IngreDrag drag)
+    private void CheckPile(ChildData drag)
     {
         float y;
         if (drag.grinding == 1)

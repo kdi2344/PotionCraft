@@ -12,4 +12,6 @@ public class PotionDetail : ScriptableObject
     InvenItemManager.BottleShape bottle;
     InvenItemManager.BottleSticker sticker;
     InvenItemManager.StickerIcon icon;
+
+    Transform[] points;
 }

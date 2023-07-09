@@ -21,6 +21,11 @@ public class Pot : MonoBehaviour
             Invoke("Delete", 0.5f);
             containIngredients[other.GetComponent<DragDrop>().ingreType]++; //개수 추가
         }
+
+        if (other.gameObject.CompareTag("ingredient"))
+        {
+            FindObjectOfType<DragTest>().isPot = true;
+        }
     }
     private void Splash()
     {
@@ -37,4 +42,13 @@ public class Pot : MonoBehaviour
             containIngredients[i] = 0;
         }
     }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("ingredient"))
+        {
+            FindObjectOfType<DragTest>().isPot = false;
+        }
+    }
+
 }
