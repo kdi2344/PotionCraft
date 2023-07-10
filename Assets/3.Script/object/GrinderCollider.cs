@@ -13,7 +13,7 @@ public class GrinderCollider : MonoBehaviour
     {
         if (collision.CompareTag("ingredient") && collision.transform.childCount > 0)
         {
-            if (collision.transform.GetChild(collision.transform.childCount-1).GetComponent<ChildData>().grinding > 0 && collision.transform.GetChild(collision.transform.childCount - 1).GetComponent<ChildData>().isDrag)
+            if (collision.transform.GetChild(collision.transform.childCount - 1).GetComponent<ChildData>() && collision.transform.GetChild(collision.transform.childCount-1).GetComponent<ChildData>().grinding > 0 && collision.transform.GetChild(collision.transform.childCount - 1).GetComponent<ChildData>().isDrag)
             {
                 collision.transform.GetChild(collision.transform.childCount - 2).gameObject.SetActive(false); //동그란거 끄기
                 pile.SetActive(true);
@@ -22,9 +22,12 @@ public class GrinderCollider : MonoBehaviour
             //{
             //    ResetPile(activeIngredient);
             //}
-            collision.transform.GetChild(collision.transform.childCount - 1).GetComponent<ChildData>().isInGrinder = true;
-            activeIngredient = collision.gameObject;
-            pile.transform.GetChild(0).GetComponent<SpriteRenderer>().color = colors[collision.transform.GetChild(collision.transform.childCount - 1).GetComponent<ChildData>().ingreType];
+            if (collision.transform.GetChild(collision.transform.childCount - 1).GetComponent<ChildData>())
+            {
+                collision.transform.GetChild(collision.transform.childCount - 1).GetComponent<ChildData>().isInGrinder = true;
+                activeIngredient = collision.gameObject;
+                pile.transform.GetChild(0).GetComponent<SpriteRenderer>().color = colors[collision.transform.GetChild(collision.transform.childCount - 1).GetComponent<ChildData>().ingreType];
+            }
         }
 
         if (collision.CompareTag("handle") && activeIngredient!= null && activeIngredient.transform.GetChild(activeIngredient.transform.childCount - 1).GetComponent<ChildData>().isInGrinder)
