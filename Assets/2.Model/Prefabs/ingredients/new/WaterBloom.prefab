@@ -189,6 +189,7 @@ MonoBehaviour:
   isInven: 0
   isPot: 0
   isInGrinder: 0
+  move: {fileID: 11400000, guid: b05e4438c46218d45aa2d6e317cafdc7, type: 2}
 --- !u!1 &6253979050143450542
 GameObject:
   m_ObjectHideFlags: 0

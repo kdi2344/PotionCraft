@@ -12,12 +12,15 @@ public class DragTest : MonoBehaviour
     public int grinding = 0;
     [SerializeField] GameObject pile;
     [SerializeField] private float angleOffset;
+    Vector3 dragOffset;
 
     //자식객체 선택할때 원위치로 돌아오는 변수
     [SerializeField] List<Vector3> positions = new List<Vector3>();
     [SerializeField] List<Vector3> rotations = new List<Vector3>();
     Vector3 speed = Vector3.zero;
     float rotateSpeed = 3;
+    float z;
+    float angle = 0;
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -52,13 +55,23 @@ public class DragTest : MonoBehaviour
                 }
                 else //spoon
                 {
-                    selectedObject = hit.collider.gameObject;
-                    Vector3 screenPos = Camera.main.WorldToScreenPoint(selectedObject.transform.parent.position);
-                    Vector3 vec3 = Input.mousePosition - screenPos;
-                    angleOffset = (Mathf.Atan2(selectedObject.transform.right.y, selectedObject.transform.right.x) - Mathf.Atan2(vec3.y, vec3.x)) * Mathf.Rad2Deg;
-                    selectedObject.transform.localRotation = Quaternion.identity;
+                    if (hit.collider.CompareTag("spoon"))
+                    {
+                        selectedObject = hit.collider.gameObject;
+                        Vector3 screenPos = Camera.main.WorldToScreenPoint(selectedObject.transform.parent.position);
+                        Vector3 vec3 = Input.mousePosition - screenPos;
+                        angleOffset = (Mathf.Atan2(selectedObject.transform.right.y, selectedObject.transform.right.x) - Mathf.Atan2(vec3.y, vec3.x)) * Mathf.Rad2Deg;
+                        selectedObject.transform.localRotation = Quaternion.identity;
+                    }
+                    else
+                    {
+                        var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        mousePos.z = 0;
+                        selectedObject = hit.collider.gameObject;
+                        dragOffset = selectedObject.transform.position - mousePos;
+                    }
                 }
-                selectedObject.transform.rotation = Quaternion.identity;
+                //selectedObject.transform.rotation = Quaternion.identity;
             }
             else
             {
@@ -120,13 +133,18 @@ public class DragTest : MonoBehaviour
                 selectedObject.GetComponent<Rigidbody2D>().angularVelocity = 0;
             }
             else if (selectedObject.CompareTag("spoon"))
-            { 
+            {
+                float originAngle = angle;
                 selectedObject.transform.localRotation = Quaternion.identity;
                 Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 Vector3 screenPos = Camera.main.WorldToScreenPoint(selectedObject.transform.parent.position);
                 Vector3 vec3 = Input.mousePosition - screenPos;
-                float angle = Mathf.Atan2(vec3.y, vec3.x) * Mathf.Rad2Deg;
-                float z = angle + angleOffset;
+                angle = Mathf.Atan2(vec3.y, vec3.x) * Mathf.Rad2Deg;
+                if (angle != originAngle)
+                {
+                    FindObjectOfType<SpoonHandler>().MapMove();
+                }
+                z = angle + angleOffset;
                 if (z < -10)
                 {
                     z = -10f;
@@ -138,13 +156,18 @@ public class DragTest : MonoBehaviour
                 selectedObject.transform.localPosition = new Vector3(0, 7.05f, 0);
                 selectedObject.transform.parent.eulerAngles = new Vector3(0, 0, z);
             }
+            else
+            {
+                Vector3 pos = mousePos();
+                selectedObject.transform.position = pos + dragOffset;
+            }
         }
 
         if (Input.GetMouseButtonUp(0))
         {
             isDrag = false;
             if (selectedObject != null && selectedObject.CompareTag("ingredient") && selectedObject.transform.childCount > 0) selectedObject.transform.GetChild(selectedObject.transform.childCount - 1).GetComponent<ChildData>().isDrag = isDrag;
-            if (isInven) //인벤토리 위에서 놓으면
+            if (selectedObject != null && selectedObject.CompareTag("ingredient") && isInven) //인벤토리 위에서 놓으면
             {
                 InvenItemManager.instance.IngreQuantity[selectedObject.transform.GetChild(selectedObject.transform.childCount - 1).GetComponent<ChildData>().ingreType]++;
                 InvenItemManager.instance.UpdateInventory();
@@ -155,8 +178,10 @@ public class DragTest : MonoBehaviour
             { //냄비 위에서 놓으면
                 //GetComponent<Animator>().SetTrigger("grind"); //들어가는 애니메이션 재생
                 FindObjectOfType<Pot>().containIngredients[selectedObject.transform.GetChild(selectedObject.transform.childCount - 1).GetComponent<ChildData>().ingreType]++;
-                Destroy(selectedObject);
                 FindObjectOfType<Pot>().transform.parent.GetChild(1).GetComponent<Animator>().SetTrigger("splash");
+                FindObjectOfType<SpoonHandler>().ResetTarget(selectedObject.transform.GetChild(selectedObject.transform.childCount - 1).GetComponent<ChildData>().move); //이동경로 추가
+                //이동경로 눈으로 보이게 추가
+                Destroy(selectedObject);
             }
             else if (selectedObject !=null && selectedObject.CompareTag("ingredient"))
             {
@@ -173,6 +198,11 @@ public class DragTest : MonoBehaviour
             else if (selectedObject != null && selectedObject.CompareTag("spoon"))
             {
                 selectedObject.transform.localPosition = new Vector3(0, 7.05f, 0);
+                selectedObject = null;
+            }
+            else if (selectedObject != null && selectedObject.name.Equals("Whole"))
+            {
+                selectedObject.transform.localPosition = new Vector3(-0.940000296f, 2.14999986f, 0);
                 selectedObject = null;
             }
         }

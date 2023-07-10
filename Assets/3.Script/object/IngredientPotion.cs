@@ -11,6 +11,15 @@ public class IngredientPotion : MonoBehaviour
     private Vector3 dragOffset;
     List<Vector3> positions = new List<Vector3>();
     List<Vector3> rotations = new List<Vector3>();
+    public MoveDetail move;
+    GameObject line;
+
+    [SerializeField] GameObject map;
+
+    private void Awake()
+    {
+        map = FindObjectOfType<map>().gameObject;
+    }
     public void OnMouseDown() //Å¬¸¯
     {
         dragOffset = transform.position - GetMousePos();
@@ -21,6 +30,13 @@ public class IngredientPotion : MonoBehaviour
             InvenItemManager.instance.IngreQuantity[(int)GetComponent<IngredientPotion>().btnIngre] -= 1;
             made.GetComponent<SpriteRenderer>().sortingOrder = 1000;
             made.GetComponent<Rigidbody2D>().gravityScale = 0;
+
+            line = Instantiate(move.fixLines[0], map.transform.parent.position, move.fixLines[0].transform.rotation, map.transform.GetChild(0));
+            for(int z =0; z < line.transform.childCount; z++)
+            {
+                line.transform.GetChild(z).GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
+            }
+
             if (made.transform.childCount > 0)
             {
                 for (int i = 0; i < made.transform.childCount; i++)
@@ -46,6 +62,7 @@ public class IngredientPotion : MonoBehaviour
     public void OnMouseUp()
     {
         FindObjectOfType<DragTest>().isDrag = false;
+        if (line) Destroy(line);
         if (!FindObjectOfType<DragTest>().isInven)
         {
             made.GetComponent<SpriteRenderer>().sortingOrder = 10;

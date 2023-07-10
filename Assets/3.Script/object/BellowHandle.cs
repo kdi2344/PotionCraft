@@ -48,5 +48,7 @@ public class BellowHandle : MonoBehaviour
             transform.parent.parent.eulerAngles = new Vector3(0, 0, z);
         }
     } 
+
+
     //1 ~ -28.8
 }

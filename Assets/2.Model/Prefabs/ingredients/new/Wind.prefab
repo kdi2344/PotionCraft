@@ -892,4 +892,7 @@ MonoBehaviour:
   ingreType: 1
   grinding: 0
   isDrag: 0
+  isInven: 0
+  isPot: 0
   isInGrinder: 0
+  move: {fileID: 11400000, guid: 4f7444c1039bca44ebca2cb557351c8e, type: 2}

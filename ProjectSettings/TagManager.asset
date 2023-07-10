@@ -12,6 +12,7 @@ TagManager:
   - grinder
   - pot
   - spoon
+  - exp
   layers:
   - Default
   - TransparentFX

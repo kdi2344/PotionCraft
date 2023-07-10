@@ -12,7 +12,7 @@ public class ChildData : MonoBehaviour
     public bool isInven = false;
     public bool isPot = false;
     public bool isInGrinder = false;
-
+    public MoveDetail move;
     private void Awake()
     {
         for (int i = 0; i < transform.parent.childCount; i++)

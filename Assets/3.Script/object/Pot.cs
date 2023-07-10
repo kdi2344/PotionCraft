@@ -20,6 +20,7 @@ public class Pot : MonoBehaviour
             delete = other;
             Invoke("Delete", 0.5f);
             containIngredients[other.GetComponent<DragDrop>().ingreType]++; //개수 추가
+            //FindObjectOfType<SpoonHandler>().ResetTarget();
         }
 
         if (other.gameObject.CompareTag("ingredient"))

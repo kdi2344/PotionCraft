@@ -24,6 +24,7 @@ public class InvenItemManager : MonoBehaviour
     public int[] IngreQuantity = { 2, 2, 0, 0, 0, 0, 0, 0, 0 };
     public int IngreType = 2; //몇 종류 가지고 있는지
     [SerializeField] private Sprite[] ingreIcons;
+    [SerializeField] private MoveDetail[] moves;
 
     [SerializeField] private Sprite[] potionBottle;
     [SerializeField] private Sprite[] potionLabel;
@@ -95,6 +96,7 @@ public class InvenItemManager : MonoBehaviour
                                 content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetComponent<IngredientPotion>().btnType = Type.Ingredient; //해당 버튼의 타입은 ingredient
                                 content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetComponent<IngredientPotion>().btnIngre = (Ingredient)k; //버튼의 재료 타입 기억
                                 content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetComponent<IngredientPotion>().count = IngreQuantity[k];
+                                content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetComponent<IngredientPotion>().move = moves[k];
                                 if (IngreQuantity[k] < 10)
                                 {
                                     content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetChild(1).GetChild(0).gameObject.SetActive(true);
@@ -151,6 +153,7 @@ public class InvenItemManager : MonoBehaviour
                                 content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetComponent<IngredientPotion>().btnType = Type.Ingredient; //해당 버튼의 타입은 ingredient
                                 content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetComponent<IngredientPotion>().btnIngre = (Ingredient)k; //버튼의 재료 타입 기억
                                 content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetComponent<IngredientPotion>().count = IngreQuantity[k];
+                                content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetComponent<IngredientPotion>().move = moves[k]; //이동 미리보기용
                                 if (IngreQuantity[k] < 10)
                                 {
                                     content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetChild(1).GetChild(0).gameObject.SetActive(true);
@@ -198,6 +201,7 @@ public class InvenItemManager : MonoBehaviour
                                 content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetComponent<IngredientPotion>().btnType = Type.Ingredient; //해당 버튼의 타입은 ingredient
                                 content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetComponent<IngredientPotion>().btnIngre = (Ingredient)k; //버튼의 재료 타입 기억
                                 content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetComponent<IngredientPotion>().count = IngreQuantity[k];
+                                content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetComponent<IngredientPotion>().move = null;
                                 if (IngreQuantity[k] < 10)
                                 {
                                     content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetChild(1).GetChild(0).gameObject.SetActive(true);

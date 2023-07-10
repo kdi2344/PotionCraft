@@ -6,6 +6,9 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager instance = null;
 
+    [SerializeField] GameObject whole;
+    [SerializeField] GameObject potion;
+
     enum Room { Main, Customer, Garden, Bed, Machine}
     Room currentRoom;
     [SerializeField] private GameObject right;
@@ -16,6 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] Vector3 movePos;
     Vector3 speed = Vector3.zero;
 
+    [SerializeField] GameObject[] GardenPlants; 
     private void Awake()
     {
         if (instance == null)
@@ -29,6 +33,8 @@ public class GameManager : MonoBehaviour
         }
         currentRoom = Room.Main;
         movePos = Camera.main.transform.position;
+        IgnoreCollision();
+        GardenReset();
     }
     private void Update()
     {
@@ -36,6 +42,20 @@ public class GameManager : MonoBehaviour
         {
             Camera.main.transform.position = Vector3.SmoothDamp(Camera.main.transform.position, movePos, ref speed, 0.5f);
         }
+    }
+    private void GardenReset()
+    {
+        int plantNum = Random.Range(4, 7); //4~6Á¾·ù 
+        for (int i = 0;  i < plantNum; i++)
+        {
+            GardenPlants[i].SetActive(true);
+        }
+        
+    }
+    private void IgnoreCollision()
+    {
+        Physics2D.IgnoreCollision(whole.GetComponent<BoxCollider2D>(), potion.GetComponent<CircleCollider2D>());
+        
     }
     public void ArrowRight()
     {
