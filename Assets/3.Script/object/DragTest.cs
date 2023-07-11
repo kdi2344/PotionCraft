@@ -36,6 +36,14 @@ public class DragTest : MonoBehaviour
                     selectedObject.GetComponent<SpriteRenderer>().sortingOrder = 1000;
                     grinding = selectedObject.transform.GetChild(selectedObject.transform.childCount - 1).GetComponent<ChildData>().grinding;
                     selectedObject.transform.GetChild(selectedObject.transform.childCount - 1).GetComponent<ChildData>().isDrag = isDrag;
+                    if (selectedObject.GetComponent<CircleCollider2D>()) selectedObject.GetComponent<CircleCollider2D>().isTrigger = true;
+                    if (selectedObject.transform.childCount > 0)
+                    {
+                        for (int i = 0; i < selectedObject.transform.childCount - 1; i++)
+                        {
+                            if (selectedObject.transform.GetChild(i).GetComponent<CircleCollider2D>()) selectedObject.transform.GetChild(i).GetComponent<CircleCollider2D>().isTrigger = true;
+                        }
+                    }
                     for (int i = 0; i < hit.collider.GetComponent<ChildData>().positions.Count; i++)
                     {
                         positions.Add(hit.collider.GetComponent<ChildData>().positions[i]);
@@ -166,6 +174,14 @@ public class DragTest : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             isDrag = false;
+            if (selectedObject != null && selectedObject.GetComponent<CircleCollider2D>()) selectedObject.GetComponent<CircleCollider2D>().isTrigger = false;
+            if (selectedObject != null && selectedObject.transform.childCount > 0)
+            {
+                for (int i = 0; i < selectedObject.transform.childCount - 1; i++)
+                {
+                    if (selectedObject.transform.GetChild(i).GetComponent<CircleCollider2D>()) selectedObject.transform.GetChild(i).GetComponent<CircleCollider2D>().isTrigger = false;
+                }
+            }
             if (selectedObject != null && selectedObject.CompareTag("ingredient") && selectedObject.transform.childCount > 0) selectedObject.transform.GetChild(selectedObject.transform.childCount - 1).GetComponent<ChildData>().isDrag = isDrag;
             if (selectedObject != null && selectedObject.CompareTag("ingredient") && isInven) //인벤토리 위에서 놓으면
             {

@@ -46,6 +46,7 @@ public class IngredientPotion : MonoBehaviour, IPointerEnterHandler, IPointerExi
             InvenItemManager.instance.IngreQuantity[(int)GetComponent<IngredientPotion>().btnIngre] -= 1;
             made.GetComponent<SpriteRenderer>().sortingOrder = 1000;
             made.GetComponent<Rigidbody2D>().gravityScale = 0;
+            if (made.GetComponent<CircleCollider2D>()) made.GetComponent<CircleCollider2D>().isTrigger = true;
 
             if (made.transform.childCount > 0)
             {
@@ -55,6 +56,10 @@ public class IngredientPotion : MonoBehaviour, IPointerEnterHandler, IPointerExi
                     rotations.Add(made.transform.GetChild(i).localEulerAngles);
                     if (made.transform.GetChild(i).GetComponent<Rigidbody2D>()) made.transform.GetChild(i).GetComponent<Rigidbody2D>().gravityScale = 0;
                     if (made.transform.GetChild(i).GetComponent<SpriteRenderer>()) made.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingOrder = 999;
+                }
+                for (int i = 0; i < made.transform.childCount-1; i++)
+                {
+                    if (made.transform.GetChild(i).GetComponent<CircleCollider2D>()) made.transform.GetChild(i).GetComponent<CircleCollider2D>().isTrigger = true;
                 }
             }
             else
@@ -75,6 +80,7 @@ public class IngredientPotion : MonoBehaviour, IPointerEnterHandler, IPointerExi
         if (line) Destroy(line);
         if (!FindObjectOfType<DragTest>().isInven)
         {
+            if (made.GetComponent<CircleCollider2D>()) made.GetComponent<CircleCollider2D>().isTrigger = false;
             made.GetComponent<SpriteRenderer>().sortingOrder = 10;
             made.GetComponent<Rigidbody2D>().gravityScale = 1;
             if (made.transform.childCount > 0)
@@ -83,6 +89,10 @@ public class IngredientPotion : MonoBehaviour, IPointerEnterHandler, IPointerExi
                 {
                     if (made.transform.GetChild(i).GetComponent<Rigidbody2D>()) made.transform.GetChild(i).GetComponent<Rigidbody2D>().gravityScale = 1;
                     if (made.transform.GetChild(i).GetComponent<SpriteRenderer>()) made.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingOrder = 9;
+                }
+                for (int i = 0; i < made.transform.childCount - 1; i++)
+                {
+                    if (made.transform.GetChild(i).GetComponent<CircleCollider2D>()) made.transform.GetChild(i).GetComponent<CircleCollider2D>().isTrigger = false;
                 }
             }
             else

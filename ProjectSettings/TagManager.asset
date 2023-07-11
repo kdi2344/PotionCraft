@@ -13,6 +13,7 @@ TagManager:
   - pot
   - spoon
   - exp
+  - mapBottle
   layers:
   - Default
   - TransparentFX
@@ -26,7 +27,7 @@ TagManager:
   - GrinderHandle
   - 
   - drag
-  - 
+  - mapBottle
   - 
   - 
   - 

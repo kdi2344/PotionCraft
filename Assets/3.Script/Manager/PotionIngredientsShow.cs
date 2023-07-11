@@ -31,11 +31,11 @@ public class PotionIngredientsShow : MonoBehaviour
         }
     }
 
-    private void ResetIngredient()
+    public void ResetIngredient()
     {
-        for (int i = 0; i < 9; i++)
+        for (int i =0; i < pot.containIngredients.Length; i++)
         {
-            transform.GetChild(i + 1).gameObject.SetActive(false);
+            pot.containIngredients[i] = 0;
         }
     }
 }

@@ -11,7 +11,7 @@ public class InvenItemManager : MonoBehaviour
     [SerializeField] Tab currentTab;
     public enum Ingredient { WaterBloom = 0, WindBloom, LifeLeaf, MadMushroom, RainbowCap, Shadow, Thunder, WaterCap, WitchMushroom }
     public enum Type { Ingredient, Potion, Etc }
-    public enum Potion { Heal, Poison }
+    public enum Potion { None, Heal, Poison }
     public enum BottleShape { normal = 0, one, two, three}
     public enum BottleSticker { normal = 0, one, two, three}
     public enum StickerIcon { heart, poison }

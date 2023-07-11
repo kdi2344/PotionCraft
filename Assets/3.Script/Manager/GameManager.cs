@@ -5,7 +5,11 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager instance = null;
+    public static GameManager instance = null;
+
+    public bool CanMakePotion = false; //포션에 닿아있으면 활성화
+    public bool CanSavePotion = false; //포션 만들어서 지금 저장 가능한 상태라면 활성화
+    public InvenItemManager.Potion currentPotionEffect = InvenItemManager.Potion.None; //지금 만들 수 있는 포션 효과
 
     [SerializeField] GameObject whole;
     [SerializeField] GameObject potion;
@@ -22,7 +26,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] Vector3 movePos;
     Vector3 speed = Vector3.zero;
 
-    [SerializeField] GameObject[] GardenPlants; 
+    [SerializeField] GameObject[] GardenPlants;
+    [SerializeField] GameObject[] Customers;
     private void Awake()
     {
         if (instance == null)
@@ -32,12 +37,13 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
         currentRoom = Room.Main;
         movePos = Camera.main.transform.position;
         IgnoreCollision();
         GardenReset();
+        CustomerSet();
     }
     private void Update()
     {
@@ -46,6 +52,10 @@ public class GameManager : MonoBehaviour
             Camera.main.transform.position = Vector3.SmoothDamp(Camera.main.transform.position, movePos, ref speed, 0.5f);
         }
         textCoin.text = Coin.ToString();
+
+    }
+    private void CustomerSet()
+    {
 
     }
     private void GardenReset()
