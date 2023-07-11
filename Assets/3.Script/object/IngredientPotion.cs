@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class IngredientPotion : MonoBehaviour
+public class IngredientPotion : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public InvenItemManager.Type btnType;
     public InvenItemManager.Ingredient btnIngre;
@@ -20,6 +21,21 @@ public class IngredientPotion : MonoBehaviour
     {
         map = FindObjectOfType<map>().gameObject;
     }
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (!line)
+        {
+            line = Instantiate(move.fixLines[0], map.transform.parent.position, move.fixLines[0].transform.rotation, map.transform.GetChild(0));
+            for (int z = 0; z < line.transform.childCount; z++)
+            {
+                line.transform.GetChild(z).GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
+            }
+        }
+    }
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (line) Destroy(line);
+    }
     public void OnMouseDown() //클릭
     {
         dragOffset = transform.position - GetMousePos();
@@ -30,12 +46,6 @@ public class IngredientPotion : MonoBehaviour
             InvenItemManager.instance.IngreQuantity[(int)GetComponent<IngredientPotion>().btnIngre] -= 1;
             made.GetComponent<SpriteRenderer>().sortingOrder = 1000;
             made.GetComponent<Rigidbody2D>().gravityScale = 0;
-
-            line = Instantiate(move.fixLines[0], map.transform.parent.position, move.fixLines[0].transform.rotation, map.transform.GetChild(0));
-            for(int z =0; z < line.transform.childCount; z++)
-            {
-                line.transform.GetChild(z).GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
-            }
 
             if (made.transform.childCount > 0)
             {
@@ -91,6 +101,14 @@ public class IngredientPotion : MonoBehaviour
     }
     public void OnMouseDrag() //드래그중
     {
+        if (!line)
+        {
+            line = Instantiate(move.fixLines[0], map.transform.parent.position, move.fixLines[0].transform.rotation, map.transform.GetChild(0));
+            for (int z = 0; z < line.transform.childCount; z++)
+            {
+                line.transform.GetChild(z).GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
+            }
+        }
         made.transform.position = GetMousePos() + dragOffset;
         made.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         made.GetComponent<Rigidbody2D>().angularVelocity = 0;

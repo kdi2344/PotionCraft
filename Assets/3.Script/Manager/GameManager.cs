@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,13 +9,15 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] GameObject whole;
     [SerializeField] GameObject potion;
-
+    public int Coin;
     enum Room { Main, Customer, Garden, Bed, Machine}
     Room currentRoom;
     [SerializeField] private GameObject right;
     [SerializeField] private GameObject left;
     [SerializeField] private GameObject up;
     [SerializeField] private GameObject down;
+
+    [SerializeField] private Text textCoin;
 
     [SerializeField] Vector3 movePos;
     Vector3 speed = Vector3.zero;
@@ -42,6 +45,8 @@ public class GameManager : MonoBehaviour
         {
             Camera.main.transform.position = Vector3.SmoothDamp(Camera.main.transform.position, movePos, ref speed, 0.5f);
         }
+        textCoin.text = Coin.ToString();
+
     }
     private void GardenReset()
     {

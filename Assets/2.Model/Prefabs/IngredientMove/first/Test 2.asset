@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 682fa7866d5608f468935108626ce24c, type: 3}
   m_Name: Test 2
   m_EditorClassIdentifier: 
-  fixPoints: []
-  fixLines: []
+  fixPoints:
+  - {fileID: 4334059599776544702, guid: f137b61d0b18dab4c8eba75f1ded9614, type: 3}
+  - {fileID: 4334059599776544702, guid: 46b57727e0093ab4681b3c78fd79877b, type: 3}
+  fixLines:
+  - {fileID: 114265066242262752, guid: 2353ec74e870827499b40e45979cd773, type: 3}
   addPoints: []
   addLines: []
+  preview: {fileID: 0}
+  addRange: 0

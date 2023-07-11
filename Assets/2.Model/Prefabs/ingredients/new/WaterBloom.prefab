@@ -200,7 +200,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6253979050143450543}
   - component: {fileID: 6253979050143450540}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Square (2)
   m_TagString: ingredient
   m_Icon: {fileID: 0}
@@ -403,7 +403,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6253979050438877590}
   - component: {fileID: 6253979050438877591}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: color
   m_TagString: ingredient
   m_Icon: {fileID: 0}
@@ -825,7 +825,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6253979050864155639}
   - component: {fileID: 6253979050864155636}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Square (1)
   m_TagString: ingredient
   m_Icon: {fileID: 0}

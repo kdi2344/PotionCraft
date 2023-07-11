@@ -65,7 +65,10 @@ MonoBehaviour:
   ingreType: 2
   grinding: 0
   isDrag: 0
+  isInven: 0
+  isPot: 0
   isInGrinder: 0
+  move: {fileID: 0}
 --- !u!1 &3159038299638809338
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,7 +321,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8324804570873916301}
   - component: {fileID: 8324804570873916302}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Square (2)
   m_TagString: ingredient
   m_Icon: {fileID: 0}
@@ -521,7 +524,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8324804571114311604}
   - component: {fileID: 8324804571114311605}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: color
   m_TagString: ingredient
   m_Icon: {fileID: 0}
@@ -796,7 +799,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8324804572569400789}
   - component: {fileID: 8324804572569400790}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Square (1)
   m_TagString: ingredient
   m_Icon: {fileID: 0}
