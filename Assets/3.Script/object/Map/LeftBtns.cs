@@ -15,6 +15,7 @@ public class LeftBtns : MonoBehaviour
         GameManager.instance.CanSavePotion = false;
         FindObjectOfType<PotionIngredientsShow>().ResetIngredient(); //왼쪽 재료창 비움
         MapBottle.localPosition = Vector3.zero; //맵 원위치
-        Map.localPosition = new Vector3(1.56666708f, -3.58333302f, 0);
+        Map.localPosition = new Vector3(1.56666708f, -3.58333302f, 0); //포션 제자리로
+        FindObjectOfType<BellowHandle>().ResetPotion();
     }
 }

@@ -22,6 +22,7 @@ public class BellowHandle : MonoBehaviour
     [SerializeField] private GameObject PotionColor;
     [SerializeField] private Sprite[] PotionStickerIcons; //? 하트 독 etc
     [SerializeField] private TMP_InputField input;
+    [SerializeField] private GameObject lines;
 
     private void Awake()
     {
@@ -117,6 +118,18 @@ public class BellowHandle : MonoBehaviour
 
         }
     }
+
+    public void ResetPotion()
+    {
+        MapBottleLiquid.GetComponent<SpriteRenderer>().color = new Color(0.7019608f, 0.8235294f, 1, 1);
+        PotionStickerIcon.GetComponent<SpriteRenderer>().sprite = PotionStickerIcons[0]; //포션 스티커 물음표로 바꿔주기
+        PotionColor.GetComponent<SpriteRenderer>().color = new Color(0.7019608f, 0.8235294f, 1, 1); //포션 색 파랗게 바꾸기
+        for (int i = 0; i < lines.transform.childCount; i++)
+        {
+            Destroy(lines.transform.GetChild(i).gameObject);
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.name.Equals("circle"))
