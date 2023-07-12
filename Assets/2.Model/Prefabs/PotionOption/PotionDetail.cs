@@ -14,5 +14,6 @@ public class PotionDetail : ScriptableObject
     public List<InvenItemManager.Potion> effect;
     public InvenItemManager.BottleShape bottle;
     public InvenItemManager.BottleSticker sticker;
-    public InvenItemManager.StickerIcon icon;
+    public InvenItemManager.Potion icon;
+    public int level;   
 }

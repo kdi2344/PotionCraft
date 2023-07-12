@@ -29,6 +29,13 @@ public class PotionIngredientsShow : MonoBehaviour
                 m++;
             }
         }
+        if (m == 0)
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                transform.GetChild(i+1).gameObject.SetActive(false);
+            }
+        }
     }
 
     public void ResetIngredient()

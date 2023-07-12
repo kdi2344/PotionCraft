@@ -61,6 +61,12 @@ public class DragTest : MonoBehaviour
                 {
                     selectedObject = hit.collider.transform.parent.gameObject;
                 }
+                else if (hit.collider.CompareTag("potion"))
+                {
+                    hit.collider.isTrigger = true;
+                    selectedObject = hit.collider.transform.parent.parent.gameObject;
+                    selectedObject.transform.rotation = Quaternion.identity;
+                }
                 else //spoon
                 {
                     if (hit.collider.CompareTag("spoon"))
@@ -148,7 +154,7 @@ public class DragTest : MonoBehaviour
                 Vector3 screenPos = Camera.main.WorldToScreenPoint(selectedObject.transform.parent.position);
                 Vector3 vec3 = Input.mousePosition - screenPos;
                 angle = Mathf.Atan2(vec3.y, vec3.x) * Mathf.Rad2Deg;
-                if (angle != originAngle)
+                if (angle != originAngle && FindObjectOfType<SpoonHandler>().move != null)
                 {
                     FindObjectOfType<SpoonHandler>().MapMove();
                 }
@@ -164,6 +170,13 @@ public class DragTest : MonoBehaviour
                 selectedObject.transform.localPosition = new Vector3(0, 7.05f, 0);
                 selectedObject.transform.parent.eulerAngles = new Vector3(0, 0, z);
             }
+            else if (selectedObject.CompareTag("potion"))
+            {
+                Vector3 pos = mousePos();
+                selectedObject.transform.position = pos;
+                selectedObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                selectedObject.GetComponent<Rigidbody2D>().angularVelocity = 0;
+            }
             else
             {
                 Vector3 pos = mousePos();
@@ -174,6 +187,7 @@ public class DragTest : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             isDrag = false;
+            if (selectedObject != null && selectedObject.CompareTag("potion")) selectedObject.transform.GetChild(0).GetChild(0).GetComponent<PolygonCollider2D>().isTrigger = false;
             if (selectedObject != null && selectedObject.GetComponent<CircleCollider2D>()) selectedObject.GetComponent<CircleCollider2D>().isTrigger = false;
             if (selectedObject != null && selectedObject.transform.childCount > 0)
             {
@@ -185,14 +199,13 @@ public class DragTest : MonoBehaviour
             if (selectedObject != null && selectedObject.CompareTag("ingredient") && selectedObject.transform.childCount > 0) selectedObject.transform.GetChild(selectedObject.transform.childCount - 1).GetComponent<ChildData>().isDrag = isDrag;
             if (selectedObject != null && selectedObject.CompareTag("ingredient") && isInven) //인벤토리 위에서 놓으면
             {
-                InvenItemManager.instance.IngreQuantity[selectedObject.transform.GetChild(selectedObject.transform.childCount - 1).GetComponent<ChildData>().ingreType]++;
+                GameManager.instance.IngreQuantity[selectedObject.transform.GetChild(selectedObject.transform.childCount - 1).GetComponent<ChildData>().ingreType]++;
                 InvenItemManager.instance.UpdateInventory();
                 Destroy(selectedObject);
                 selectedObject = null;
             }
             else if (selectedObject != null && selectedObject.CompareTag("ingredient") && isPot)
             { //냄비 위에서 놓으면
-                //GetComponent<Animator>().SetTrigger("grind"); //들어가는 애니메이션 재생
                 FindObjectOfType<Pot>().containIngredients[selectedObject.transform.GetChild(selectedObject.transform.childCount - 1).GetComponent<ChildData>().ingreType]++;
                 FindObjectOfType<Pot>().transform.parent.GetChild(1).GetComponent<Animator>().SetTrigger("splash");
                 FindObjectOfType<SpoonHandler>().ResetTarget(selectedObject.transform.GetChild(selectedObject.transform.childCount - 1).GetComponent<ChildData>().move); //이동경로 추가

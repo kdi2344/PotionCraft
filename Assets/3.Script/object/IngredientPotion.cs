@@ -7,6 +7,7 @@ public class IngredientPotion : MonoBehaviour, IPointerEnterHandler, IPointerExi
 {
     public InvenItemManager.Type btnType;
     public InvenItemManager.Ingredient btnIngre;
+    public int btnPotion;
     public int count;
     GameObject made;
     private Vector3 dragOffset;
@@ -23,13 +24,17 @@ public class IngredientPotion : MonoBehaviour, IPointerEnterHandler, IPointerExi
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!line)
+        if (!line && btnType == InvenItemManager.Type.Ingredient)
         {
             line = Instantiate(move.fixLines[0], map.transform.parent.position, move.fixLines[0].transform.rotation, map.transform.GetChild(0));
             for (int z = 0; z < line.transform.childCount; z++)
             {
                 line.transform.GetChild(z).GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
             }
+        }
+        else if (btnType == InvenItemManager.Type.Potion)
+        {
+            //정보 띄우기
         }
     }
     public void OnPointerExit(PointerEventData eventData)
@@ -43,8 +48,8 @@ public class IngredientPotion : MonoBehaviour, IPointerEnterHandler, IPointerExi
         {
             Vector3 pos = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y, 0);
             made = Instantiate(InvenItemManager.instance.Prefabs[(int)GetComponent<IngredientPotion>().btnIngre], pos, Quaternion.identity, InvenItemManager.instance.MakeRoom.transform);
-            InvenItemManager.instance.IngreQuantity[(int)GetComponent<IngredientPotion>().btnIngre] -= 1;
-            made.GetComponent<SpriteRenderer>().sortingOrder = 1000;
+            GameManager.instance.IngreQuantity[(int)GetComponent<IngredientPotion>().btnIngre] -= 1;
+            made.GetComponent<SpriteRenderer>().sortingOrder += 1000;
             made.GetComponent<Rigidbody2D>().gravityScale = 0;
             if (made.GetComponent<CircleCollider2D>()) made.GetComponent<CircleCollider2D>().isTrigger = true;
 
@@ -70,6 +75,35 @@ public class IngredientPotion : MonoBehaviour, IPointerEnterHandler, IPointerExi
         }
         else //Potion이면 
         {
+            Vector3 pos = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y, 0);
+            made = Instantiate(InvenItemManager.instance.PotionPrefab, pos, Quaternion.identity, InvenItemManager.instance.MakeRoom.transform);
+
+            //만들어진 potion 생긴모습 바꿔주기
+            made.GetComponent<Potion>().PotionData = GameManager.instance.PotionDetails[btnPotion];
+            made.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionBottleColor[(int)made.GetComponent<Potion>().PotionData.bottle];
+            made.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().color = GameManager.instance.PotionColors[(int)made.GetComponent<Potion>().PotionData.effect[0]];
+            made.transform.GetChild(0).GetChild(1).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionBottleShadow[(int)made.GetComponent<Potion>().PotionData.bottle];
+            made.transform.GetChild(0).GetChild(2).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionBottleScratch[(int)made.GetComponent<Potion>().PotionData.bottle];
+            made.transform.GetChild(0).GetChild(3).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionBottleCork[(int)made.GetComponent<Potion>().PotionData.bottle];
+            made.transform.GetChild(0).GetChild(4).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionBottleOutline[(int)made.GetComponent<Potion>().PotionData.bottle];
+            made.transform.GetChild(1).GetChild(0).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionStickerColors[(int)made.GetComponent<Potion>().PotionData.sticker];
+            made.transform.GetChild(1).GetChild(1).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionStickerOutline[(int)made.GetComponent<Potion>().PotionData.sticker];
+            made.transform.GetChild(1).GetChild(2).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionStickerIcon[(int)made.GetComponent<Potion>().PotionData.icon];
+
+            GameManager.instance.PotionQuantity[btnPotion] -= 1;
+            if (made.CompareTag("potion"))
+            {
+                for (int i = 0; i < made.transform.childCount; i++)
+                {
+                    if (made.transform.GetChild(i).GetComponent<SpriteRenderer>()) made.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingOrder += 1000;
+                    for (int j = 0; j < made.transform.GetChild(i).childCount; j++)
+                    {
+                        if (made.transform.GetChild(i).GetChild(j).GetComponent<SpriteRenderer>()) made.transform.GetChild(i).GetChild(j).GetComponent<SpriteRenderer>().sortingOrder += 1000;
+                    }
+                }
+            }
+            made.GetComponent<Rigidbody2D>().gravityScale = 0;
+            if (made.transform.GetChild(0).GetChild(0).GetComponent<PolygonCollider2D>()) made.transform.GetChild(0).GetChild(0).GetComponent<PolygonCollider2D>().isTrigger = true;
 
         }
         InvenItemManager.instance.UpdateInventory();
@@ -81,7 +115,22 @@ public class IngredientPotion : MonoBehaviour, IPointerEnterHandler, IPointerExi
         if (!FindObjectOfType<DragTest>().isInven)
         {
             if (made.GetComponent<CircleCollider2D>()) made.GetComponent<CircleCollider2D>().isTrigger = false;
-            made.GetComponent<SpriteRenderer>().sortingOrder = 10;
+            
+            if (made.CompareTag("potion"))
+            {
+                for (int i = 0; i < made.transform.childCount; i++)
+                {
+                    if (made.transform.GetChild(i).GetComponent<SpriteRenderer>()) made.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingOrder -= 1000;
+                    for (int j = 0; j < made.transform.GetChild(i).childCount; j++)
+                    {
+                        if (made.transform.GetChild(i).GetChild(j).GetComponent<SpriteRenderer>()) made.transform.GetChild(i).GetChild(j).GetComponent<SpriteRenderer>().sortingOrder -= 1000;
+                    }
+                }
+            }
+            else
+            {
+                made.GetComponent<SpriteRenderer>().sortingOrder -= 1000;
+            }
             made.GetComponent<Rigidbody2D>().gravityScale = 1;
             if (made.transform.childCount > 0)
             {
@@ -111,24 +160,32 @@ public class IngredientPotion : MonoBehaviour, IPointerEnterHandler, IPointerExi
     }
     public void OnMouseDrag() //드래그중
     {
-        if (!line)
+        if (made.CompareTag("ingredient")) //재료 드래그중
         {
-            line = Instantiate(move.fixLines[0], map.transform.parent.position, move.fixLines[0].transform.rotation, map.transform.GetChild(0));
-            for (int z = 0; z < line.transform.childCount; z++)
+            if (!line)
             {
-                line.transform.GetChild(z).GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
+                line = Instantiate(move.fixLines[0], map.transform.parent.position, move.fixLines[0].transform.rotation, map.transform.GetChild(0));
+                for (int z = 0; z < line.transform.childCount; z++)
+                {
+                    line.transform.GetChild(z).GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
+                }
+            }
+            made.transform.position = GetMousePos() + dragOffset;
+            made.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            made.GetComponent<Rigidbody2D>().angularVelocity = 0;
+            for (int i = 0; i < made.transform.childCount; i++)
+            {
+                if (made.transform.GetChild(i).GetComponent<Rigidbody2D>())
+                {
+                    made.transform.GetChild(i).GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                    made.transform.GetChild(i).GetComponent<Rigidbody2D>().angularVelocity = 0;
+                }
             }
         }
-        made.transform.position = GetMousePos() + dragOffset;
-        made.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        made.GetComponent<Rigidbody2D>().angularVelocity = 0;
-        for (int i = 0; i < made.transform.childCount; i++)
+        else //포션 드래그중
         {
-            if (made.transform.GetChild(i).GetComponent<Rigidbody2D>())
-            {
-                made.transform.GetChild(i).GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-                made.transform.GetChild(i).GetComponent<Rigidbody2D>().angularVelocity = 0;
-            }
+            made.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            made.GetComponent<Rigidbody2D>().angularVelocity = 0;
         }
     }
     Vector3 GetMousePos()
@@ -140,23 +197,36 @@ public class IngredientPotion : MonoBehaviour, IPointerEnterHandler, IPointerExi
     private void OnDisable()
     {
         //인벤토리에서 놔서 꺼질때
-        if (made != null)
+        if (made != null && made.CompareTag("ingredient"))
         {
             made.GetComponent<SpriteRenderer>().sortingOrder = 7;
             made.GetComponent<Rigidbody2D>().gravityScale = 0.5f;
             made.transform.localPosition = new Vector3(5.32000017f, 0.0599999987f, 90);
             if (made.transform.childCount > 0)
             {
-                for (int i = 0; i < transform.childCount; i++)
+                for (int i = 0; i < made.transform.childCount; i++)
                 {
-                    made.transform.GetChild(i).GetComponent<Rigidbody2D>().gravityScale = 0.5f;
-                    made.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingOrder = 6;
+                    if (made.transform.GetChild(i).GetComponent<Rigidbody2D>())  made.transform.GetChild(i).GetComponent<Rigidbody2D>().gravityScale = 0.5f;
+                    if (made.transform.GetChild(i).GetComponent<SpriteRenderer>()) made.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingOrder = 6;
                 }
             }
             else
             {
                 positions.Clear();
                 rotations.Clear();
+            }
+        }
+        else if (made != null && made.CompareTag("potion"))
+        {
+            made.transform.localPosition = new Vector3(5.32000017f, 0.0599999987f, 90);
+            made.GetComponent<Rigidbody2D>().gravityScale = 1;
+            for (int i = 0; i < made.transform.childCount; i++)
+            {
+                if (made.transform.GetChild(i).GetComponent<SpriteRenderer>()) made.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingOrder -= 1000;
+                for (int j = 0; j < made.transform.GetChild(i).childCount; j++)
+                {
+                    if (made.transform.GetChild(i).GetChild(j).GetComponent<SpriteRenderer>()) made.transform.GetChild(i).GetChild(j).GetComponent<SpriteRenderer>().sortingOrder -= 1000;
+                }
             }
         }
     }

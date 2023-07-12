@@ -21,9 +21,8 @@ public class BellowHandle : MonoBehaviour
     [SerializeField] private GameObject PotionStickerIcon;
     [SerializeField] private GameObject PotionColor;
     [SerializeField] private Sprite[] PotionStickerIcons; //? 하트 독 etc
-    [SerializeField] private TMP_InputField input;
+    [SerializeField] public TMP_InputField input;
     [SerializeField] private GameObject lines;
-
     private void Awake()
     {
         col = GetComponent<PolygonCollider2D>();
@@ -105,25 +104,61 @@ public class BellowHandle : MonoBehaviour
     }
     private void ChangeColor()
     {
+        GameManager.instance.CanSavePotion = true;
         if (GameManager.instance.currentPotionEffect == InvenItemManager.Potion.Heal)
         {
-            MapBottleLiquid.GetComponent<SpriteRenderer>().color = new Color(0.9245283f, 0.3619615f, 0.3735761f, 1);
+            MapBottleLiquid.GetComponent<SpriteRenderer>().color = GameManager.instance.PotionColors[1];
+
             input.transform.GetChild(0).GetChild(1).GetComponent<TMP_Text>().text = "미약한 치유의 포션"; // level에 따라 다르게 이름 1: 미약한 치유의 포션
             //점 5개중에 하나 아이콘 바꿔주기
             PotionStickerIcon.GetComponent<SpriteRenderer>().sprite = PotionStickerIcons[1]; //포션 스티커 하트로 바꿔주기
-            PotionColor.GetComponent<SpriteRenderer>().color = new Color(0.9245283f, 0.3619615f, 0.3735761f, 1); //포션 색 빨갛게 바꾸기
+            PotionColor.GetComponent<SpriteRenderer>().color = GameManager.instance.PotionColors[1]; ; //포션 색 빨갛게 바꾸기
         }
         else if (GameManager.instance.currentPotionEffect == InvenItemManager.Potion.Poison)
         {
+            MapBottleLiquid.GetComponent<SpriteRenderer>().color = GameManager.instance.PotionColors[2];
 
+            input.transform.GetChild(0).GetChild(1).GetComponent<TMP_Text>().text = "미약한 맹독의 포션"; // level에 따라 다르게 이름 1: 미약한 
+            //점 5개중에 하나 아이콘 바꿔주기
+            PotionStickerIcon.GetComponent<SpriteRenderer>().sprite = PotionStickerIcons[2]; //포션 스티커 하트로 바꿔주기
+            PotionColor.GetComponent<SpriteRenderer>().color = GameManager.instance.PotionColors[2]; ; //포션 색 빨갛게 바꾸기
+        }
+        else if (GameManager.instance.currentPotionEffect == InvenItemManager.Potion.Sleep)
+        {
+            MapBottleLiquid.GetComponent<SpriteRenderer>().color = GameManager.instance.PotionColors[3];
+
+            input.transform.GetChild(0).GetChild(1).GetComponent<TMP_Text>().text = "미약한 수면의 포션"; 
+            //점 5개중에 하나 아이콘 바꿔주기
+            PotionStickerIcon.GetComponent<SpriteRenderer>().sprite = PotionStickerIcons[3]; //포션 스티커 하트로 바꿔주기
+            PotionColor.GetComponent<SpriteRenderer>().color = GameManager.instance.PotionColors[3]; ; //포션 색 빨갛게 바꾸기
+        }
+        else if (GameManager.instance.currentPotionEffect == InvenItemManager.Potion.Fire)
+        {
+            MapBottleLiquid.GetComponent<SpriteRenderer>().color = GameManager.instance.PotionColors[4];
+
+            input.transform.GetChild(0).GetChild(1).GetComponent<TMP_Text>().text = "미약한 화염의 포션"; 
+            //점 5개중에 하나 아이콘 바꿔주기
+            PotionStickerIcon.GetComponent<SpriteRenderer>().sprite = PotionStickerIcons[4]; //포션 스티커 하트로 바꿔주기
+            PotionColor.GetComponent<SpriteRenderer>().color = GameManager.instance.PotionColors[4]; ; //포션 색 빨갛게 바꾸기
+        }
+        else if (GameManager.instance.currentPotionEffect == InvenItemManager.Potion.Tree)
+        {
+            MapBottleLiquid.GetComponent<SpriteRenderer>().color = GameManager.instance.PotionColors[5];
+
+            input.transform.GetChild(0).GetChild(1).GetComponent<TMP_Text>().text = "미약한 나무의 포션"; 
+            //점 5개중에 하나 아이콘 바꿔주기
+            PotionStickerIcon.GetComponent<SpriteRenderer>().sprite = PotionStickerIcons[5]; //포션 스티커 하트로 바꿔주기
+            PotionColor.GetComponent<SpriteRenderer>().color = GameManager.instance.PotionColors[5]; ; //포션 색 빨갛게 바꾸기
         }
     }
 
     public void ResetPotion()
     {
-        MapBottleLiquid.GetComponent<SpriteRenderer>().color = new Color(0.7019608f, 0.8235294f, 1, 1);
+        MapBottleLiquid.GetComponent<SpriteRenderer>().color = GameManager.instance.PotionColors[0];
         PotionStickerIcon.GetComponent<SpriteRenderer>().sprite = PotionStickerIcons[0]; //포션 스티커 물음표로 바꿔주기
-        PotionColor.GetComponent<SpriteRenderer>().color = new Color(0.7019608f, 0.8235294f, 1, 1); //포션 색 파랗게 바꾸기
+        PotionColor.GetComponent<SpriteRenderer>().color = GameManager.instance.PotionColors[0]; //포션 색 파랗게 바꾸기
+        input.transform.GetChild(0).GetChild(1).GetComponent<TMP_Text>().text = "새 포션";
+        GameManager.instance.currentPotionEffect = InvenItemManager.Potion.None;
         for (int i = 0; i < lines.transform.childCount; i++)
         {
             Destroy(lines.transform.GetChild(i).gameObject);

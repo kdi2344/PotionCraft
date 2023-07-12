@@ -19,7 +19,7 @@ public class GardenClick : MonoBehaviour
     }
     private void OnMouseDown()
     {
-        FindObjectOfType<InvenItemManager>().IngreQuantity[ingreType]++;
+        GameManager.instance.IngreQuantity[ingreType]++;
         FindObjectOfType<InvenItemManager>().UpdateInventory();
         GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
         transform.parent.GetChild(transform.parent.childCount - 1).gameObject.SetActive(false);

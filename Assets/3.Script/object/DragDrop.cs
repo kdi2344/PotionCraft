@@ -111,7 +111,7 @@ public class DragDrop : MonoBehaviour
         }
         else
         {
-            InvenItemManager.instance.IngreQuantity[ingreType]++;
+            GameManager.instance.IngreQuantity[ingreType]++;
             InvenItemManager.instance.UpdateInventory();
             Destroy(gameObject);
         }

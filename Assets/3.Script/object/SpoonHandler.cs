@@ -5,24 +5,23 @@ using UnityEngine;
 public class SpoonHandler : MonoBehaviour
 {
     [SerializeField] GameObject linesParent;
-    [SerializeField] MoveDetail move;
+    [SerializeField] public MoveDetail move;
     [SerializeField] GameObject map;
     float speed = 1f;
     [SerializeField] int point = 0;
     [SerializeField] int finalPoint = 0;
     [SerializeField] Vector3 targetPos;
     [SerializeField] Vector3 dir;
-    private void Awake()
-    {
-        finalPoint = move.fixPoints.Length + move.addPoints.Length;
-        //ResetTarget();
-    }
     public void ResetTarget(MoveDetail move)
     {
         point = 0;
-        Instantiate(move.fixLines[0], map.transform.parent.position, move.fixLines[0].transform.rotation, linesParent.transform);
-        this.move = move;
-        MoveTo();
+        if (move != null)
+        {
+            this.move = move;
+            finalPoint = move.fixPoints.Length + move.addPoints.Length;
+            Instantiate(move.fixLines[0], map.transform.parent.position, move.fixLines[0].transform.rotation, linesParent.transform);
+            MoveTo();
+        }
     }
     private void MoveTo()
     {

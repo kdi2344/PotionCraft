@@ -28,6 +28,11 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] GameObject[] GardenPlants;
     [SerializeField] GameObject[] Customers;
+
+    public Color[] PotionColors;
+    public int[] IngreQuantity = { 2, 2, 0, 0, 0, 0, 0, 0, 0 };
+    public int[] PotionQuantity = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    public PotionDetail[] PotionDetails;
     private void Awake()
     {
         if (instance == null)
