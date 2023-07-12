@@ -1,0 +1,125 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3373779233597434547
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3373779233597434546}
+  - component: {fileID: 3373779233597434556}
+  - component: {fileID: 3373779233597434557}
+  m_Layer: 12
+  m_Name: Fog3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &3373779233597434546
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3373779233597434547}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -7.32, y: 2.83}
+  m_SizeDelta: {x: 1, y: 1}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!212 &3373779233597434556
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3373779233597434547}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 3
+  m_Sprite: {fileID: 21300000, guid: 83035f483d73db440b8017dcfaadc4aa, type: 3}
+  m_Color: {r: 0.8352942, g: 0.7058824, b: 0.49803925, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 1
+  m_SpriteSortPoint: 0
+--- !u!114 &3373779233597434557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3373779233597434547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f53021980c9ca7f4d99413941abe6838, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MapBottle: {fileID: 0}
+  Close: 0
+  Fogs:
+  - {fileID: 21300000, guid: f31b92a528757a047914d9a6e2af656a, type: 3}
+  - {fileID: 21300000, guid: 48251b977ab05694886166aa6267d8c9, type: 3}
+  - {fileID: 21300000, guid: 49e8dfe4911a4a44a93fdd42bfd21a4e, type: 3}
+  - {fileID: 21300000, guid: 59bf693f16882c847b79aab8ef406c92, type: 3}
+  - {fileID: 21300000, guid: 212c61b9c291a9e478034633da037444, type: 3}
+  - {fileID: 21300000, guid: 652d2ad384105a84b8e554d1490dfc43, type: 3}
+  - {fileID: 21300000, guid: 7c3e76350c90d8447b562722f4722fa7, type: 3}
+  - {fileID: 21300000, guid: b5b600adf44e9634db7ae076b94c1090, type: 3}
+  - {fileID: 21300000, guid: b0c2fb2056eaa114fa61185eaf67fc51, type: 3}
+  - {fileID: 21300000, guid: b90eae7cc643d9047a54201167454f6d, type: 3}
+  - {fileID: 21300000, guid: 15f6ff7e3e444ca4687698cd8e3fe2c5, type: 3}
+  - {fileID: 21300000, guid: ad8b37838cc1d354fac63f6fa702056b, type: 3}
+  - {fileID: 21300000, guid: 9b316187d1fc8874e87c20ce20db45a4, type: 3}
+  - {fileID: 21300000, guid: 33411180b6995964f8b68a0cdfd30467, type: 3}
+  - {fileID: 21300000, guid: ef65c8c8d5d82c346908fea546b1f9bd, type: 3}
+  - {fileID: 21300000, guid: 4dcc944f7ab53f946bea733cb5332ec7, type: 3}
+  - {fileID: 21300000, guid: 7039aad62b8e0c941a2103f3f24ba0be, type: 3}
+  - {fileID: 21300000, guid: a8b6f7e58e1674a43ac806424bdbccd5, type: 3}
+  - {fileID: 21300000, guid: c9491c0138b6d9f45b883fc05f546042, type: 3}
+  distance: 0

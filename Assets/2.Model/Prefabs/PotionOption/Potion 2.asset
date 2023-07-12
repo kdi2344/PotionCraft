@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f81b789b0b1544e85752e3a3103f36, type: 3}
   m_Name: Potion 2
   m_EditorClassIdentifier: 
-  PotionName: 
+  PotionName: "\u200B"
   ingredients: 
   effect: 
   bottle: 0
   sticker: 0
-  icon: 1
+  icon: 3
   level: 1
