@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Test
   m_EditorClassIdentifier: 
   PotionName: "\u200B"
-  ingredients: 
-  effect: 
+  ingredients: 00000000
+  effect: 01000000
   bottle: 0
   sticker: 0
-  icon: 5
+  icon: 1
   level: 1

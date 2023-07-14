@@ -92,8 +92,16 @@ public class GameManager : MonoBehaviour
         }
         else if (Success < 0)
         {
-            if (PopulLevel > 0) PopulLevel--;
-            Success = PopulLevels[PopulLevel] - 1;
+            if (PopulLevel > 0)
+            {
+                PopulLevel--;
+                Success = PopulLevels[PopulLevel] - 1;
+            }
+            else
+            {
+                Success = 0;
+            }
+            
         }
         textPoPul.text = Success.ToString() + "/" + PopulLevels[PopulLevel];
 
@@ -130,9 +138,29 @@ public class GameManager : MonoBehaviour
         {
             karmaIcon.GetComponent<Image>().sprite = KarmaIcons[6];
         }
-        else if (Karma <= 4 && Karma > 1) //Kind 1  -2 -3 -4
+        else if (Karma <= 3 && Karma > 1) //Kind 1  -2 -3 -4
         {
             karmaIcon.GetComponent<Image>().sprite = KarmaIcons[7];
+        }
+        else if (Karma <= 5 && Karma > 3) //Kind 2  -2 -3 -4
+        {
+            karmaIcon.GetComponent<Image>().sprite = KarmaIcons[8];
+        }
+        else if (Karma <= 8 && Karma > 5) //Kind 3  -2 -3 -4
+        {
+            karmaIcon.GetComponent<Image>().sprite = KarmaIcons[9];
+        }
+        else if (Karma <= 11 && Karma > 8) //Kind 4  -2 -3 -4
+        {
+            karmaIcon.GetComponent<Image>().sprite = KarmaIcons[10];
+        }
+        else if (Karma <= 14 && Karma > 11) //Kind 5  -2 -3 -4
+        {
+            karmaIcon.GetComponent<Image>().sprite = KarmaIcons[11];
+        }
+        else if (Karma > 14) //Kind 1  -2 -3 -4
+        {
+            karmaIcon.GetComponent<Image>().sprite = KarmaIcons[12];
         }
     }
     private void CustomerSet() //º’¥‘¿∫ «œ∑Áø° 5∏Ì 2∏Ìº’¥‘ 1∏Ì ªÛ¿Œ 2∏Ìº’¥‘
@@ -144,7 +172,7 @@ public class GameManager : MonoBehaviour
                 int j = Random.Range(0, 4); //4∏Ì¿« ¿œπ› ∞Ì∞¥¡ﬂø° ªÃ±‚
                 if (MadeCustomers.Count != 5) MadeCustomers.Add(Instantiate(CustomerPrefabs[j], CustomerPosition.transform.position, Quaternion.identity , CustomerParent));
                 else MadeCustomers[i] =(Instantiate(CustomerPrefabs[j], CustomerPosition.transform.position, Quaternion.identity, CustomerParent));
-                int k = Random.Range(0, 6);
+                int k = Random.Range(1, 6);
                 customerDetails[i].needPotion = (InvenItemManager.Potion)k;
                 int m = Random.Range(0, 3);
                 customerDetails[i].RandomMent = m;
@@ -167,6 +195,10 @@ public class GameManager : MonoBehaviour
         for (int i = 0;  i < plantNum; i++)
         {
             GardenPlants[i].SetActive(true);
+        }
+        for (int i =0; i < PotionQuantity.Length; i++)
+        {
+            PotionQuantity[i] = 0;
         }
         
     }
@@ -227,10 +259,10 @@ public class GameManager : MonoBehaviour
             up.transform.GetChild(1).gameObject.SetActive(false);
             down.transform.GetChild(0).gameObject.SetActive(false);
             down.transform.GetChild(1).gameObject.SetActive(false);
-            if (isFirstStart)
+            if (isFirstCustomer)
             {
                 CustomerManager.instance.GoFirstCustomer();
-                isFirstStart = false;
+                isFirstCustomer = false;
             }
         }
         else if (currentRoom == Room.Garden)

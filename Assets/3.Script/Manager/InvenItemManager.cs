@@ -185,7 +185,9 @@ public class InvenItemManager : MonoBehaviour
                                 content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(0).GetChild(1).GetChild(1).GetComponent<Image>().sprite = potionStickerOutline[(int)GameManager.instance.PotionDetails[k].sticker];
                                 content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(0).GetChild(1).GetChild(2).GetComponent<Image>().sprite = potionStickerIcon[(int)GameManager.instance.PotionDetails[k].icon];
                                 content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetComponent<IngredientPotion>().btnType = Type.Potion; //해당 버튼의 타입은 ingredient
+                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetComponent<IngredientPotion>().btnPotion = k; //해당 버튼의 타입은 ingredient
                                 content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetComponent<IngredientPotion>().count = GameManager.instance.PotionQuantity[k];
+                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetComponent<IngredientPotion>().potionInfo = GameManager.instance.PotionDetails[k];
                                 if (GameManager.instance.PotionQuantity[k] < 10)
                                 {
                                     content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(1).GetChild(0).gameObject.SetActive(true);

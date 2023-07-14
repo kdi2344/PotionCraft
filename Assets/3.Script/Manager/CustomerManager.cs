@@ -9,13 +9,19 @@ public class CustomerManager : MonoBehaviour
     public int CurrentCustomer = 0;
     public int order = 0;
     public bool isMent = false; //쓸모없는 멘트 한 경우
+    public bool isShopping = false; //상품 보고 있는 경우
     [SerializeField] private GameObject SpeechBubble;
     [SerializeField] private GameObject ShopUIs;
     public bool isRightPotion = false;
     [SerializeField] GameObject ment;
     [SerializeField] GameObject coin;
+    [SerializeField] GameObject coinIcon;
+    [SerializeField] GameObject sellerUI;
+
+    [SerializeField] Text CoinText;
+    [SerializeField] Text SubText;
     [SerializeField] Transform CustomerCanvas;
-    [SerializeField] GameObject UIPrefabs;
+    [SerializeField] GameObject[] UIPrefabs;
 
     public string[] healMents;
     public string[] poisonMents;
@@ -23,7 +29,10 @@ public class CustomerManager : MonoBehaviour
     public string[] fireMents;
     public string[] treeMents;
 
+    public int PotionMoney = -1;
+
     public PotionDetail currentPotion;
+    public GameObject currentPotionOb;
 
     private void Awake()
     {
@@ -53,6 +62,8 @@ public class CustomerManager : MonoBehaviour
             }
             else
             {
+                CoinText.text = "(판매)";
+                coinIcon.SetActive(false);
                 SpeechBubble.transform.GetChild(1).GetChild(0).GetComponent<Button>().interactable = false;
             }
         }
@@ -64,14 +75,14 @@ public class CustomerManager : MonoBehaviour
                 ShopUIs.SetActive(true);
                 if (GameManager.instance.DayCount == 1)
                 {
-                    if (!isMent)
+                    if (!isMent && !isShopping)
                     {
                         ShopUIs.transform.GetChild(0).gameObject.SetActive(true);
                         ShopUIs.transform.GetChild(1).gameObject.SetActive(false);
                         ShopUIs.transform.GetChild(2).gameObject.SetActive(false);
                         ShopUIs.transform.GetChild(3).gameObject.SetActive(false);
                     }
-                    else
+                    else if (isMent && !isShopping)
                     {
                         ShopUIs.transform.GetChild(0).gameObject.SetActive(false);
                         ShopUIs.transform.GetChild(1).gameObject.SetActive(true);
@@ -81,14 +92,14 @@ public class CustomerManager : MonoBehaviour
                 }
                 else
                 {
-                    if (!isMent)
+                    if (!isMent && !isShopping)
                     {
                         ShopUIs.transform.GetChild(0).gameObject.SetActive(false);
                         ShopUIs.transform.GetChild(1).gameObject.SetActive(false);
                         ShopUIs.transform.GetChild(2).gameObject.SetActive(true);
                         ShopUIs.transform.GetChild(3).gameObject.SetActive(false);
                     }
-                    else
+                    else if (isMent && !isShopping)
                     {
                         ShopUIs.transform.GetChild(0).gameObject.SetActive(false);
                         ShopUIs.transform.GetChild(1).gameObject.SetActive(false);
@@ -110,24 +121,67 @@ public class CustomerManager : MonoBehaviour
         {
             coin.SetActive(false);
             isRightPotion = false;
+            CoinText.text = "(판매)";
+            coinIcon.SetActive(false);
+            SubText.text = "(포션을 제공하려면 저울에 올리세요)";
         }
         else
         {
             if (currentPotion.effect[0].ToString() == GameManager.instance.customerDetails[CurrentCustomer].needPotion.ToString())
             {
+                if (PotionMoney < 0) PotionMoney = Random.Range(10, 20);
+                CoinText.text = "(골드 " + PotionMoney + "     개에 판매)";
+                coinIcon.SetActive(true);
                 isRightPotion = true;
                 coin.SetActive(true);
             }
             else
             {
+                CoinText.text = "(판매)";
+                coinIcon.SetActive(false);
                 isRightPotion = false;
                 coin.SetActive(false);
+                SubText.text = "이 포션은 필요하지 않아요...";
             }
         }
     }
     public void BtnSell()
     {
+        GameManager.instance.Coin += PotionMoney; //보유하고있는 돈 증가
+        GameManager.instance.Success++;//실적 하나 증가
+        if (GameManager.instance.customerDetails[CurrentCustomer].RandomMent == 2) //나쁜놈 받아줌
+        {
+            GameObject madeUI = Instantiate(UIPrefabs[1], CustomerCanvas);
+            madeUI.SetActive(true);
+            madeUI.transform.GetChild(5).GetComponent<Text>().text = "+" + PotionMoney;
+            GameManager.instance.Karma -= 3;
+        }
+        else //손님 받아줌
+        {
+            GameObject madeUI = Instantiate(UIPrefabs[0], CustomerCanvas);
+            madeUI.SetActive(true);
+            madeUI.transform.GetChild(5).GetComponent<Text>().text = "+" + PotionMoney;
+            GameManager.instance.Karma += 1;
+        }
 
+        PotionMoney = -1;
+        SuccessCustomer();
+    }
+
+    public void BtnSeeObs()
+    {
+        isShopping = true;
+        sellerUI.SetActive(true);
+        for (int i =0; i < ShopUIs.transform.childCount; i++)
+        {
+            ShopUIs.transform.GetChild(i).gameObject.SetActive(false);
+        }
+    }
+
+    public void BtnBack()
+    {
+        sellerUI.SetActive(false);
+        isShopping = false;
     }
 
     public void BtnShopMent() 
@@ -172,18 +226,46 @@ public class CustomerManager : MonoBehaviour
             order++;
         }
     }
+    private void SuccessCustomer()
+    {
+        Destroy(currentPotionOb);
+        coin.SetActive(false);
+        if (order < 6)
+        {
+            order--;
+            GameManager.instance.MadeCustomers[order - 1].GetComponent<Animator>().SetTrigger("go");
+            CurrentCustomer++;
+            SetText();
+            Invoke("SecondGo", 1f);
+            Invoke("SecondGo", 2f);
+        }
+        else if (order == 6)
+        {
+            CurrentCustomer++;
+            SetText();
+            order--;
+            GameManager.instance.MadeCustomers[order - 1].GetComponent<Animator>().SetTrigger("go");
+        }
+        isRightPotion = false;
+    }
 
     public void NextCustomer()
     {
-        //Instantiate(); //그 ui 생성
-        GameManager.instance.Success--;//실적 하나 감소
-        if (GameManager.instance.customerDetails[CurrentCustomer].RandomMent == 2) //나쁜놈 보내줌
+        if (CurrentCustomer != 2) //상인이 아니라면
         {
-            GameManager.instance.Karma += 1;
-        }
-        else //그냥 손님 보내버림
-        {
-            GameManager.instance.Karma -= 2;
+            GameManager.instance.Success--;//실적 하나 감소
+            if (GameManager.instance.customerDetails[CurrentCustomer].RandomMent == 2) //나쁜놈 보내줌
+            {
+                GameObject madeUI = Instantiate(UIPrefabs[2], CustomerCanvas);
+                madeUI.SetActive(true);
+                GameManager.instance.Karma += 1;
+            }
+            else //그냥 손님 보내버림
+            {
+                GameObject madeUI = Instantiate(UIPrefabs[3], CustomerCanvas);
+                madeUI.SetActive(true);
+                GameManager.instance.Karma -= 2;
+            }
         }
         if (order < 6)
         {

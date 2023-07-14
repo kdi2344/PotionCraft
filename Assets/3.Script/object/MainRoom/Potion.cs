@@ -5,6 +5,6 @@ using UnityEngine;
 public class Potion : MonoBehaviour
 {
     public PotionDetail PotionData;
-
+    public int index;
     
 }
