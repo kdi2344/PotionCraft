@@ -17,7 +17,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] GameObject whole;
     [SerializeField] GameObject potion;
-    public int Coin;
+    public int Coin = 100;
+    public int Success = 0;
+    public int PopulLevel = 0;
+    public int Karma = 0;
     enum Room { Main, Customer, Garden, Bed, Machine}
     [SerializeField] Room currentRoom;
     [SerializeField] private GameObject right;
@@ -26,10 +29,17 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject down;
 
     [SerializeField] private Text textCoin;
+    [SerializeField] private Text textPoPul;
+    [SerializeField] private Text textKarma;
+    [SerializeField] private GameObject populIcon;
+    [SerializeField] private GameObject karmaIcon;
 
     [SerializeField] Vector3 movePos;
     Vector3 speed = Vector3.zero;
 
+    [SerializeField] int[] PopulLevels;
+    [SerializeField] Sprite[] PopulIcons;
+    [SerializeField] Sprite[] KarmaIcons;
     [SerializeField] GameObject[] GardenPlants;
     [SerializeField] GameObject[] CustomerPrefabs;
     public CustomerDetail[] customerDetails;
@@ -74,6 +84,56 @@ public class GameManager : MonoBehaviour
         }
         textCoin.text = Coin.ToString();
 
+        if (Success >= PopulLevels[PopulLevel])
+        {
+            Success = 0;
+            PopulLevel++;
+            populIcon.GetComponent<Image>().sprite = PopulIcons[PopulLevel];
+        }
+        else if (Success < 0)
+        {
+            if (PopulLevel > 0) PopulLevel--;
+            Success = PopulLevels[PopulLevel] - 1;
+        }
+        textPoPul.text = Success.ToString() + "/" + PopulLevels[PopulLevel];
+
+        textKarma.text = Karma.ToString();
+        SetKarma();
+    }
+    private void SetKarma()
+    {
+        if (Karma <= -15) //Evil 6 
+        {
+            karmaIcon.GetComponent<Image>().sprite = KarmaIcons[0];
+        }
+        else if (Karma <= -13 && Karma > -15) //Evil 5 
+        {
+            karmaIcon.GetComponent<Image>().sprite = KarmaIcons[1];
+        }
+        else if (Karma <= -10 && Karma > -13) //Evil 4
+        {
+            karmaIcon.GetComponent<Image>().sprite = KarmaIcons[2];
+        }
+        else if (Karma <= -8 && Karma > -10) //Evil 3 
+        {
+            karmaIcon.GetComponent<Image>().sprite = KarmaIcons[3];
+        }
+        else if (Karma <= -5 && Karma > -8) //Evil 2 
+        {
+            karmaIcon.GetComponent<Image>().sprite = KarmaIcons[4];
+        }
+        else if (Karma <= -2 && Karma > -5) //Evil 1  -2 -3 -4
+        {
+            karmaIcon.GetComponent<Image>().sprite = KarmaIcons[5];
+        }
+        else if (Karma <= 1 && Karma > -2) //Neutral -1 0 1
+        {
+            karmaIcon.GetComponent<Image>().sprite = KarmaIcons[6];
+        }
+        else if (Karma <= 4 && Karma > 1) //Kind 1  -2 -3 -4
+        {
+            karmaIcon.GetComponent<Image>().sprite = KarmaIcons[7];
+        }
     }
     private void CustomerSet() //손님은 하루에 5명 2명손님 1명 상인 2명손님
     {

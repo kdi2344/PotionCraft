@@ -64,6 +64,11 @@ public class DragTest : MonoBehaviour
                 }
                 else if (hit.collider.CompareTag("potion"))
                 {
+                    if (FindObjectOfType<CustomerManager>().currentPotion != null)
+                    {
+                        FindObjectOfType<CustomerManager>().currentPotion = null;
+                        FindObjectOfType<CustomerManager>().CheckPotion();
+                    }
                     hit.collider.isTrigger = true;
                     selectedObject = hit.collider.transform.parent.parent.gameObject;
                     selectedObject.GetComponent<Rigidbody2D>().gravityScale = 1f;

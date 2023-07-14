@@ -13,6 +13,9 @@ public class CustomerManager : MonoBehaviour
     [SerializeField] private GameObject ShopUIs;
     public bool isRightPotion = false;
     [SerializeField] GameObject ment;
+    [SerializeField] GameObject coin;
+    [SerializeField] Transform CustomerCanvas;
+    [SerializeField] GameObject UIPrefabs;
 
     public string[] healMents;
     public string[] poisonMents;
@@ -103,18 +106,28 @@ public class CustomerManager : MonoBehaviour
 
     public void CheckPotion()
     {
-        if (currentPotion == null) isRightPotion = false;
+        if (currentPotion == null)
+        {
+            coin.SetActive(false);
+            isRightPotion = false;
+        }
         else
         {
             if (currentPotion.effect[0].ToString() == GameManager.instance.customerDetails[CurrentCustomer].needPotion.ToString())
             {
                 isRightPotion = true;
+                coin.SetActive(true);
             }
             else
             {
                 isRightPotion = false;
+                coin.SetActive(false);
             }
         }
+    }
+    public void BtnSell()
+    {
+
     }
 
     public void BtnShopMent() 
@@ -162,6 +175,16 @@ public class CustomerManager : MonoBehaviour
 
     public void NextCustomer()
     {
+        //Instantiate(); //그 ui 생성
+        GameManager.instance.Success--;//실적 하나 감소
+        if (GameManager.instance.customerDetails[CurrentCustomer].RandomMent == 2) //나쁜놈 보내줌
+        {
+            GameManager.instance.Karma += 1;
+        }
+        else //그냥 손님 보내버림
+        {
+            GameManager.instance.Karma -= 2;
+        }
         if (order < 6)
         {
             order--;
