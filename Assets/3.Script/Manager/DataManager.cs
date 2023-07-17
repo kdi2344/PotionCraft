@@ -12,7 +12,7 @@ public class Data
     public int PopulLevel = 0;
     public int Karma = 0;
 
-    public int[] IngreQuantity = { 4, 4, 4, 4, 0, 0, 0, 0, 0 };
+    public int[] IngreQuantity = { 4, 4, 4, 4, 4, 4, 4, 4, 4 };
     public int[] PotionQuantity = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     public PotionDetail[] PotionDetails = new PotionDetail[9];
 }

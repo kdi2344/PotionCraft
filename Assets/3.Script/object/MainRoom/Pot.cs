@@ -30,6 +30,7 @@ public class Pot : MonoBehaviour
     }
     private void Splash()
     {
+        SoundManager.instance.PlayEffect("pot");
         anim.SetTrigger("splash");
     }
     private void Delete()

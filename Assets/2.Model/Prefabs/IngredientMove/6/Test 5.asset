@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 682fa7866d5608f468935108626ce24c, type: 3}
+  m_Name: Test 5
+  m_EditorClassIdentifier: 
+  fixPoints:
+  - {fileID: 3144313191278147468, guid: 2cfae6bb02d588f408d765b21de00c98, type: 3}
+  - {fileID: 4334059599776544702, guid: b496cb8126fd92a418ab2368ba03a9a3, type: 3}
+  - {fileID: 4334059599776544702, guid: b8d2671fe5ddb0742a921c7a5ca29787, type: 3}
+  - {fileID: 4334059599776544702, guid: eb69123362d8c374f928cef487a1e80a, type: 3}
+  - {fileID: 3144313191278147468, guid: a48d5f6163b7d9d4a97226dcb4657284, type: 3}
+  fixLines:
+  - {fileID: 6078506637652457509, guid: 72f597dbbd1ae3d4698934b6ce4fecb2, type: 3}
+  addPoints: []
+  addLines: []
+  preview: {fileID: 0}
+  addRange: 0

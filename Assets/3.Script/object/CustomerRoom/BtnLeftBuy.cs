@@ -8,6 +8,7 @@ public class BtnLeftBuy : MonoBehaviour
 
     public void BtnLeftClick()
     {
+        SoundManager.instance.PlayEffect("btn");
         FindObjectOfType<CustomerManager>().ShopperQuantity[index]--;
         FindObjectOfType<CustomerManager>().SellQuantity[index]++;
         FindObjectOfType<ShopInventory>().UpdateInventory();

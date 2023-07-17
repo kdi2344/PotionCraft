@@ -123,6 +123,7 @@ public class CustomerManager : MonoBehaviour
     }
     public void BtnBuy()
     {
+        SoundManager.instance.PlayEffect("trade");
         DataManager.instance.nowData.Coin -= FindObjectOfType<SellInventory>().SellTotal;
         FindObjectOfType<SellInventory>().BtnBuy.GetComponent<Button>().interactable = false;
         FindObjectOfType<SellInventory>().SellTotal = 0;
@@ -195,6 +196,7 @@ public class CustomerManager : MonoBehaviour
     }
     public void BtnSell()
     {
+        SoundManager.instance.PlayEffect("btn");
         DataManager.instance.nowData.Coin += PotionMoney; //보유하고있는 돈 증가
         DataManager.instance.nowData.Success++;//실적 하나 증가
         if (GameManager.instance.customerDetails[CurrentCustomer].RandomMent == 2) //나쁜놈 받아줌
@@ -218,6 +220,7 @@ public class CustomerManager : MonoBehaviour
 
     public void BtnSeeObs()
     {
+        SoundManager.instance.PlayEffect("btn");
         isShopping = true;
         sellerUI.SetActive(true);
         for (int i =0; i < ShopUIs.transform.childCount; i++)
@@ -228,12 +231,14 @@ public class CustomerManager : MonoBehaviour
 
     public void BtnBack()
     {
+        SoundManager.instance.PlayEffect("btn");
         sellerUI.SetActive(false);
         isShopping = false;
     }
 
     public void BtnShopMent() 
     {
+        SoundManager.instance.PlayEffect("btn");
         if (isMent) isMent = false;
         else
         {

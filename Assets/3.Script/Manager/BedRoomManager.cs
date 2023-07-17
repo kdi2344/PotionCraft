@@ -13,6 +13,7 @@ public class BedRoomManager : MonoBehaviour
         DayPanel.SetActive(false);
         DarkPanel.gameObject.SetActive(true);
         StartCoroutine(BeNextDay());
+        SoundManager.instance.PlayEffect("btn");
     }
     IEnumerator BeNextDay()
     {
@@ -40,9 +41,11 @@ public class BedRoomManager : MonoBehaviour
     public void BtnCancel()
     {
         DayPanel.SetActive(false);
+        SoundManager.instance.PlayEffect("btn");
     }
     public void ClickBed()
     {
         DayPanel.SetActive(true);
+        SoundManager.instance.PlayEffect("btn");
     }
 }

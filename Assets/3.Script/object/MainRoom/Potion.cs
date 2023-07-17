@@ -6,5 +6,8 @@ public class Potion : MonoBehaviour
 {
     public PotionDetail PotionData;
     public int index;
-    
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        SoundManager.instance.PlayEffect("bottle");
+    }
 }

@@ -19,6 +19,7 @@ public class GardenClick : MonoBehaviour
     }
     private void OnMouseDown()
     {
+        SoundManager.instance.PlayEffect("ingre");
         DataManager.instance.nowData.IngreQuantity[ingreType]++;
         FindObjectOfType<InvenItemManager>().UpdateInventory();
         GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);

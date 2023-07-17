@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 682fa7866d5608f468935108626ce24c, type: 3}
+  m_Name: Test 6
+  m_EditorClassIdentifier: 
+  fixPoints:
+  - {fileID: 4334059599776544702, guid: 2cdabf0212ba1c5498b62d24b9739804, type: 3}
+  - {fileID: 4334059599776544702, guid: 926b5e2ff58f6854c8728e07a9942d8e, type: 3}
+  - {fileID: 4334059599776544702, guid: d2ddec3e1cd8fb84188fbe3dec54351d, type: 3}
+  - {fileID: 4334059599776544702, guid: 926b5e2ff58f6854c8728e07a9942d8e, type: 3}
+  - {fileID: 4334059599776544702, guid: d2ddec3e1cd8fb84188fbe3dec54351d, type: 3}
+  - {fileID: 3144313191278147468, guid: fc6f46f8059f2e3489e26f3f8697a80b, type: 3}
+  fixLines:
+  - {fileID: 7437244543884606515, guid: 3f0060eb647e86642a3e9b9d574038b2, type: 3}
+  addPoints: []
+  addLines: []
+  preview: {fileID: 0}
+  addRange: 0

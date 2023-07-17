@@ -80,12 +80,21 @@ public class SellInventory : MonoBehaviour
         }
         else
         {
+            SellTotal = 0;
             for (int i = 0; i < transform.childCount; i++)
             {
+                for (int j =0; j < transform.GetChild(i).childCount; j++)
+                {
+                    transform.GetChild(i).GetChild(j).gameObject.SetActive(false);
+                }
                 transform.GetChild(i).gameObject.SetActive(false);
             }
         }
-        if (SellTotal < 1 || SellTotal > DataManager.instance.nowData.Coin) { BtnBuy.GetComponent<Button>().interactable = false; }
+        if (SellTotal < 1 || SellTotal > DataManager.instance.nowData.Coin) 
+        {
+            BtnBuy.transform.GetChild(0).GetComponent<Text>().text = string.Format("거래가 성립되었습니다! 골드(        {0:D3}개)를 내게 됩니다", SellTotal);
+            BtnBuy.GetComponent<Button>().interactable = false;
+        }
         else { BtnBuy.GetComponent<Button>().interactable = true; }
         BtnBuy.transform.GetChild(0).GetComponent<Text>().text = string.Format("거래가 성립되었습니다! 골드(        {0:D3}개)를 내게 됩니다", SellTotal);
         

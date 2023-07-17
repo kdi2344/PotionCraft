@@ -49,7 +49,6 @@ public class GrinderHandle : MonoBehaviour
                 GameObject activeObject = collision.gameObject;
                 pile.transform.GetChild(0).GetComponent<SpriteRenderer>().color = colors[collision.transform.GetChild(collision.transform.childCount -1).GetComponent<ChildData>().ingreType];
                 activeObject.GetComponent<Animator>().SetTrigger("grind");
-                Debug.Log("재료 갈리는중");
                 activeObject.transform.GetChild(activeObject.transform.childCount-1) .GetComponent<ChildData>().grinding += 1;
                 CheckPile(activeObject.transform.GetChild(activeObject.transform.childCount - 1).GetComponent<ChildData>());
                 //if (collision.gameObject.GetComponent<DragDrop>().grinding > 9)
@@ -57,6 +56,10 @@ public class GrinderHandle : MonoBehaviour
                 //    collision.gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
                 //}
             }
+        }
+        else
+        {
+            SoundManager.instance.PlayEffect("pestle1");
         }
     }
     private void CheckPile(ChildData drag)

@@ -211,13 +211,13 @@ public class GameManager : MonoBehaviour
             if (i < plantNum)
             {
                 GardenPlants[i].SetActive(true);
+                GardenPlants[i].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
             }
             else
             {
-                //GardenPlants[i].SetActive(false);
+                GardenPlants[i].SetActive(false);
             }
         }
-        
     }
     private void IgnoreCollision()
     {
@@ -225,6 +225,7 @@ public class GameManager : MonoBehaviour
     }
     public void ArrowRight()
     {
+        SoundManager.instance.PlayEffect("btn");
         if (currentRoom == Room.Main) currentRoom = Room.Garden;
         else if (currentRoom == Room.Customer) currentRoom = Room.Main;
         movePos = movePos + new Vector3(17.8f, 0, 0);
@@ -232,6 +233,7 @@ public class GameManager : MonoBehaviour
     }
     public void ArrowLeft()
     {
+        SoundManager.instance.PlayEffect("btn");
         if (currentRoom == Room.Main) currentRoom = Room.Customer;
         else if (currentRoom == Room.Garden) currentRoom = Room.Main;
         movePos = movePos - new Vector3(17.8f, 0, 0);
@@ -239,6 +241,7 @@ public class GameManager : MonoBehaviour
     }
     public void ArrowUp()
     {
+        SoundManager.instance.PlayEffect("btn");
         if (currentRoom == Room.Main) currentRoom = Room.Bed;
         else if (currentRoom == Room.Machine) currentRoom = Room.Main;
         movePos = movePos + new Vector3(0, 10, 0);
@@ -246,6 +249,7 @@ public class GameManager : MonoBehaviour
     }
     public void ArrowDown()
     {
+        SoundManager.instance.PlayEffect("btn");
         if (currentRoom == Room.Main) currentRoom = Room.Machine;
         else if (currentRoom == Room.Bed) currentRoom = Room.Main;
         movePos -= new Vector3(0, 10, 0);

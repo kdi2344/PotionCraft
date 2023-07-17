@@ -9,6 +9,7 @@ public class StartManager : MonoBehaviour
 {
     [SerializeField] private Button btnContinue;
     [SerializeField] private Button btnNew;
+    [SerializeField] private GameObject ui;
 
     [SerializeField] bool isSaveFile = false;
 
@@ -25,12 +26,22 @@ public class StartManager : MonoBehaviour
             btnContinue.interactable = false;
         }
     }
+    public void BtnCheckData()
+    {
+        if (isSaveFile)
+        {
+            ui.SetActive(true);
+        }
+        else
+        {
+            BtnNewStart();
+        }
+    }
 
     public void BtnNewStart()
     {
         if (isSaveFile)
         {
-            //이전에 존재한 파일 날라감 경고
             DataManager.instance.DataClear();
             isSaveFile = false;
             SceneManager.LoadScene("MainScene");

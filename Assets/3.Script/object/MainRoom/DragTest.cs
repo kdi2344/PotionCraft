@@ -258,6 +258,7 @@ public class DragTest : MonoBehaviour
             }
             else if (selectedObject != null && selectedObject.CompareTag("ingredient") && isPot)
             { //냄비 위에서 놓으면
+                SoundManager.instance.PlayEffect("pot");
                 FindObjectOfType<Pot>().containIngredients[selectedObject.transform.GetChild(selectedObject.transform.childCount - 1).GetComponent<ChildData>().ingreType]++;
                 FindObjectOfType<Pot>().transform.parent.GetChild(1).GetComponent<Animator>().SetTrigger("splash");
                 FindObjectOfType<SpoonHandler>().ResetTarget(selectedObject.transform.GetChild(selectedObject.transform.childCount - 1).GetComponent<ChildData>().move); //이동경로 추가

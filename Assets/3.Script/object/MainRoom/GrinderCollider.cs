@@ -13,11 +13,21 @@ public class GrinderCollider : MonoBehaviour
     {
         if (collision.CompareTag("ingredient") && collision.transform.childCount > 0)
         {
-            if (collision.transform.GetChild(collision.transform.childCount - 1).GetComponent<ChildData>() && collision.transform.GetChild(collision.transform.childCount-1).GetComponent<ChildData>().grinding > 0 && collision.transform.GetChild(collision.transform.childCount - 1).GetComponent<ChildData>().isDrag)
+            if (collision.transform.GetChild(collision.transform.childCount - 1).GetComponent<ChildData>() && collision.transform.GetChild(collision.transform.childCount - 1).GetComponent<ChildData>().grinding > 0)
             {
                 collision.transform.GetChild(collision.transform.childCount - 2).gameObject.SetActive(false); //동그란거 끄기
                 pile.SetActive(true);
             }
+            if (collision.transform.GetChild(collision.transform.childCount - 1).GetComponent<ChildData>() && collision.transform.GetChild(collision.transform.childCount - 1).GetComponent<ChildData>().grinding == 0)
+            {
+                ResetPile(collision.gameObject);
+            }
+            //if (collision.transform.GetChild(collision.transform.childCount - 1).GetComponent<ChildData>() && collision.transform.GetChild(collision.transform.childCount-1).GetComponent<ChildData>().grinding > 0 && collision.transform.GetChild(collision.transform.childCount - 1).GetComponent<ChildData>().isDrag)
+            //{
+            //    Debug.Log("가루 키기");
+            //    collision.transform.GetChild(collision.transform.childCount - 2).gameObject.SetActive(false); //동그란거 끄기
+            //    pile.SetActive(true);
+            //}
             //if (activeIngredient != null && activeIngredient != collision)
             //{
             //    ResetPile(activeIngredient);
@@ -33,6 +43,10 @@ public class GrinderCollider : MonoBehaviour
         if (collision.CompareTag("handle") && activeIngredient!= null && activeIngredient.transform.GetChild(activeIngredient.transform.childCount - 1).GetComponent<ChildData>().isInGrinder)
         {
             activeIngredient.GetComponent<Animator>().SetTrigger("grind");
+            int i = Random.Range(0, 3);
+            if (i == 0) SoundManager.instance.PlayEffect("grind1");
+            else if (i == 1) SoundManager.instance.PlayEffect("grind2");
+            else if (i == 2) SoundManager.instance.PlayEffect("grind3");
             activeIngredient.transform.GetChild(activeIngredient.transform.childCount - 1).GetComponent<ChildData>().grinding += 1;
             CheckPile(activeIngredient.transform.GetChild(activeIngredient.transform.childCount - 1).GetComponent<ChildData>());
         }

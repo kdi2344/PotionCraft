@@ -44,6 +44,7 @@ public class IngredientPotion : MonoBehaviour, IPointerEnterHandler, IPointerExi
     }
     public void OnMouseDown() //클릭
     {
+        SoundManager.instance.PlayEffect("btn");
         dragOffset = transform.position - GetMousePos();
         if (gameObject.GetComponent<IngredientPotion>().btnType == InvenItemManager.Type.Ingredient) //꺼내는게 재료이면
         {
@@ -53,6 +54,7 @@ public class IngredientPotion : MonoBehaviour, IPointerEnterHandler, IPointerExi
             made.GetComponent<SpriteRenderer>().sortingOrder += 1000;
             made.GetComponent<Rigidbody2D>().gravityScale = 0;
             if (made.GetComponent<CircleCollider2D>()) made.GetComponent<CircleCollider2D>().isTrigger = true;
+            if (made.GetComponent<CapsuleCollider2D>()) made.GetComponent<CapsuleCollider2D>().isTrigger = true;
 
             if (made.transform.childCount > 0)
             {
@@ -66,6 +68,7 @@ public class IngredientPotion : MonoBehaviour, IPointerEnterHandler, IPointerExi
                 for (int i = 0; i < made.transform.childCount-1; i++)
                 {
                     if (made.transform.GetChild(i).GetComponent<CircleCollider2D>()) made.transform.GetChild(i).GetComponent<CircleCollider2D>().isTrigger = true;
+                    if (made.transform.GetChild(i).GetComponent<CapsuleCollider2D>()) made.transform.GetChild(i).GetComponent<CapsuleCollider2D>().isTrigger = true;
                 }
             }
             else
@@ -117,6 +120,7 @@ public class IngredientPotion : MonoBehaviour, IPointerEnterHandler, IPointerExi
         if (!FindObjectOfType<DragTest>().isInven) //아무데에다가 놓는다면
         {
             if (made.GetComponent<CircleCollider2D>()) made.GetComponent<CircleCollider2D>().isTrigger = false;
+            if (made.GetComponent<CapsuleCollider2D>()) made.GetComponent<CapsuleCollider2D>().isTrigger = false;
             
             if (made.CompareTag("potion"))
             {
@@ -141,6 +145,7 @@ public class IngredientPotion : MonoBehaviour, IPointerEnterHandler, IPointerExi
                     for (int i = 0; i < made.transform.childCount - 1; i++)
                     {
                         if (made.transform.GetChild(i).GetComponent<CircleCollider2D>()) made.transform.GetChild(i).GetComponent<CircleCollider2D>().isTrigger = false;
+                        if (made.transform.GetChild(i).GetComponent<CapsuleCollider2D>()) made.transform.GetChild(i).GetComponent<CapsuleCollider2D>().isTrigger = false;
                     }
                 }
                 else
