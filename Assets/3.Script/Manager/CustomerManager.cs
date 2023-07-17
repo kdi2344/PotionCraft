@@ -80,7 +80,7 @@ public class CustomerManager : MonoBehaviour
             if (CurrentCustomer == 2 && (GameManager.instance.MadeCustomers[CurrentCustomer].GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("customerFirstWait") || GameManager.instance.MadeCustomers[CurrentCustomer].GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("customerSecondWait")))
             {
                 ShopUIs.SetActive(true);
-                if (GameManager.instance.DayCount == 1)
+                if (DataManager.instance.nowData.DayCount == 1)
                 {
                     if (!isMent && !isShopping)
                     {
@@ -123,12 +123,12 @@ public class CustomerManager : MonoBehaviour
     }
     public void BtnBuy()
     {
-        GameManager.instance.Coin -= FindObjectOfType<SellInventory>().SellTotal;
+        DataManager.instance.nowData.Coin -= FindObjectOfType<SellInventory>().SellTotal;
         FindObjectOfType<SellInventory>().BtnBuy.GetComponent<Button>().interactable = false;
         FindObjectOfType<SellInventory>().SellTotal = 0;
         for (int i =0; i < 9; i++)
         {
-            GameManager.instance.IngreQuantity[i] += SellQuantity[i];
+            DataManager.instance.nowData.IngreQuantity[i] += SellQuantity[i];
             SellQuantity[i] = 0;
         }
         FindObjectOfType<InvenItemManager>().UpdateInventory();
@@ -175,7 +175,7 @@ public class CustomerManager : MonoBehaviour
         }
         else
         {
-            if (currentPotion.effect[0].ToString() == GameManager.instance.customerDetails[CurrentCustomer].needPotion.ToString())
+            if (currentPotion.effect.ToString() == GameManager.instance.customerDetails[CurrentCustomer].needPotion.ToString())
             {
                 if (PotionMoney < 0) PotionMoney = Random.Range(10, 20);
                 CoinText.text = "(골드 " + PotionMoney + "     개에 판매)";
@@ -195,21 +195,21 @@ public class CustomerManager : MonoBehaviour
     }
     public void BtnSell()
     {
-        GameManager.instance.Coin += PotionMoney; //보유하고있는 돈 증가
-        GameManager.instance.Success++;//실적 하나 증가
+        DataManager.instance.nowData.Coin += PotionMoney; //보유하고있는 돈 증가
+        DataManager.instance.nowData.Success++;//실적 하나 증가
         if (GameManager.instance.customerDetails[CurrentCustomer].RandomMent == 2) //나쁜놈 받아줌
         {
             GameObject madeUI = Instantiate(UIPrefabs[1], CustomerCanvas);
             madeUI.SetActive(true);
             madeUI.transform.GetChild(5).GetComponent<Text>().text = "+" + PotionMoney;
-            GameManager.instance.Karma -= 3;
+            DataManager.instance.nowData.Karma -= 3;
         }
         else //손님 받아줌
         {
             GameObject madeUI = Instantiate(UIPrefabs[0], CustomerCanvas);
             madeUI.SetActive(true);
             madeUI.transform.GetChild(5).GetComponent<Text>().text = "+" + PotionMoney;
-            GameManager.instance.Karma += 1;
+            DataManager.instance.nowData.Karma += 1;
         }
 
         PotionMoney = -1;
@@ -301,18 +301,18 @@ public class CustomerManager : MonoBehaviour
     {
         if (CurrentCustomer != 2) //상인이 아니라면
         {
-            GameManager.instance.Success--;//실적 하나 감소
+            DataManager.instance.nowData.Success--;//실적 하나 감소
             if (GameManager.instance.customerDetails[CurrentCustomer].RandomMent == 2) //나쁜놈 보내줌
             {
                 GameObject madeUI = Instantiate(UIPrefabs[2], CustomerCanvas);
                 madeUI.SetActive(true);
-                GameManager.instance.Karma += 1;
+                DataManager.instance.nowData.Karma += 1;
             }
             else //그냥 손님 보내버림
             {
                 GameObject madeUI = Instantiate(UIPrefabs[3], CustomerCanvas);
                 madeUI.SetActive(true);
-                GameManager.instance.Karma -= 2;
+                DataManager.instance.nowData.Karma -= 2;
             }
         }
         if (order < 6)

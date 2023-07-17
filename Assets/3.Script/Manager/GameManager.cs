@@ -7,20 +7,21 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
 
-    public int DayCount = 1; //첫날이 day 1
+    //public int DayCount = 1; //첫날이 day 1
 
-    public bool isFirstStart = true; //아예 첫 시작이라면
+    //public bool isFirstStart = true; //아예 첫 시작이라면
     public bool isFirstCustomer = true; //첫 손님이라면
+    public bool isNextDay = false; //침대에서 저장하고 다음날 아침일 경우
     public bool CanMakePotion = false; //포션에 닿아있으면 활성화
     public bool CanSavePotion = false; //포션 만들어서 지금 저장 가능한 상태라면 활성화
     public InvenItemManager.Potion currentPotionEffect = InvenItemManager.Potion.None; //지금 만들 수 있는 포션 효과
 
     [SerializeField] GameObject whole;
     [SerializeField] GameObject potion;
-    public int Coin = 100;
-    public int Success = 0;
-    public int PopulLevel = 0;
-    public int Karma = 0;
+    // public int Coin = 100;
+    // public int Success = 0;
+    // public int PopulLevel = 0;
+    // public int Karma = 0;
     enum Room { Main, Customer, Garden, Bed, Machine}
     [SerializeField] Room currentRoom;
     [SerializeField] private GameObject right;
@@ -49,15 +50,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] Transform CustomerParent;
 
     public Color[] PotionColors;
-    public int[] IngreQuantity = { 2, 2, 0, 0, 0, 0, 0, 0, 0 };
-    public int[] PotionQuantity = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    // public int[] IngreQuantity = { 2, 2, 0, 0, 0, 0, 0, 0, 0 };
+    // public int[] PotionQuantity = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     public PotionDetail[] PotionDetails;
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -66,15 +67,22 @@ public class GameManager : MonoBehaviour
         currentRoom = Room.Main;
         movePos = Camera.main.transform.position;
         IgnoreCollision();
-        GardenReset();
-        CustomerSet();
-        if (isFirstStart)
+
+        if (DataManager.instance.nowData.DayCount == 1)
         {
-            for(int i =0; i < PotionDetails.Length; i++)
+            GardenReset();
+            CustomerSet();
+            for (int i =0; i < PotionDetails.Length; i++)
             {
                 PotionDetails[i].ingredients.Clear();
-                PotionDetails[i].effect.Clear();
+                PotionDetails[i].effect = InvenItemManager.Potion.None;
+                DataManager.instance.nowData.PotionDetails[i] = PotionDetails[i];
             }
+        }
+        else
+        {
+            GardenReset();
+            CustomerSet();
         }
     }
     private void Update()
@@ -83,83 +91,83 @@ public class GameManager : MonoBehaviour
         {
             Camera.main.transform.position = Vector3.SmoothDamp(Camera.main.transform.position, movePos, ref speed, 0.5f);
         }
-        textCoin.text = Coin.ToString();
+        textCoin.text = DataManager.instance.nowData.Coin.ToString();
 
-        if (Success >= PopulLevels[PopulLevel])
+        if (DataManager.instance.nowData.Success >= PopulLevels[DataManager.instance.nowData.PopulLevel])
         {
-            Success = 0;
-            PopulLevel++;
-            populIcon.GetComponent<Image>().sprite = PopulIcons[PopulLevel];
+            DataManager.instance.nowData.Success = 0;
+            DataManager.instance.nowData.PopulLevel++;
+            populIcon.GetComponent<Image>().sprite = PopulIcons[DataManager.instance.nowData.PopulLevel];
         }
-        else if (Success < 0)
+        else if (DataManager.instance.nowData.Success < 0)
         {
-            if (PopulLevel > 0)
+            if (DataManager.instance.nowData.PopulLevel > 0)
             {
-                PopulLevel--;
-                Success = PopulLevels[PopulLevel] - 1;
+                DataManager.instance.nowData.PopulLevel--;
+                DataManager.instance.nowData.Success = PopulLevels[DataManager.instance.nowData.PopulLevel] - 1;
             }
             else
             {
-                Success = 0;
+                DataManager.instance.nowData.Success = 0;
             }
             
         }
-        textDay.text = DayCount.ToString();
-        textPoPul.text = Success.ToString() + "/" + PopulLevels[PopulLevel];
-        textKarma.text = Karma.ToString();
+        textDay.text = DataManager.instance.nowData.DayCount.ToString();
+        textPoPul.text = DataManager.instance.nowData.Success.ToString() + "/" + PopulLevels[DataManager.instance.nowData.PopulLevel];
+        textKarma.text = DataManager.instance.nowData.Karma.ToString();
         SetKarma();
     }
     private void SetKarma()
     {
-        if (Karma <= -15) //Evil 6 
+        if (DataManager.instance.nowData.Karma <= -15) //Evil 6 
         {
             karmaIcon.GetComponent<Image>().sprite = KarmaIcons[0];
         }
-        else if (Karma <= -13 && Karma > -15) //Evil 5 
+        else if (DataManager.instance.nowData.Karma <= -13 && DataManager.instance.nowData.Karma > -15) //Evil 5 
         {
             karmaIcon.GetComponent<Image>().sprite = KarmaIcons[1];
         }
-        else if (Karma <= -10 && Karma > -13) //Evil 4
+        else if (DataManager.instance.nowData.Karma <= -10 && DataManager.instance.nowData.Karma > -13) //Evil 4
         {
             karmaIcon.GetComponent<Image>().sprite = KarmaIcons[2];
         }
-        else if (Karma <= -8 && Karma > -10) //Evil 3 
+        else if (DataManager.instance.nowData.Karma <= -8 && DataManager.instance.nowData.Karma > -10) //Evil 3 
         {
             karmaIcon.GetComponent<Image>().sprite = KarmaIcons[3];
         }
-        else if (Karma <= -5 && Karma > -8) //Evil 2 
+        else if (DataManager.instance.nowData.Karma <= -5 && DataManager.instance.nowData.Karma > -8) //Evil 2 
         {
             karmaIcon.GetComponent<Image>().sprite = KarmaIcons[4];
         }
-        else if (Karma <= -2 && Karma > -5) //Evil 1  -2 -3 -4
+        else if (DataManager.instance.nowData.Karma <= -2 && DataManager.instance.nowData.Karma > -5) //Evil 1  -2 -3 -4
         {
             karmaIcon.GetComponent<Image>().sprite = KarmaIcons[5];
         }
-        else if (Karma <= 1 && Karma > -2) //Neutral -1 0 1
+        else if (DataManager.instance.nowData.Karma <= 1 && DataManager.instance.nowData.Karma > -2) //Neutral -1 0 1
         {
             karmaIcon.GetComponent<Image>().sprite = KarmaIcons[6];
         }
-        else if (Karma <= 3 && Karma > 1) //Kind 1  -2 -3 -4
+        else if (DataManager.instance.nowData.Karma <= 3 && DataManager.instance.nowData.Karma > 1) //Kind 1  -2 -3 -4
         {
             karmaIcon.GetComponent<Image>().sprite = KarmaIcons[7];
         }
-        else if (Karma <= 5 && Karma > 3) //Kind 2  -2 -3 -4
+        else if (DataManager.instance.nowData.Karma <= 5 && DataManager.instance.nowData.Karma > 3) //Kind 2  -2 -3 -4
         {
             karmaIcon.GetComponent<Image>().sprite = KarmaIcons[8];
         }
-        else if (Karma <= 8 && Karma > 5) //Kind 3  -2 -3 -4
+        else if (DataManager.instance.nowData.Karma <= 8 && DataManager.instance.nowData.Karma > 5) //Kind 3  -2 -3 -4
         {
             karmaIcon.GetComponent<Image>().sprite = KarmaIcons[9];
         }
-        else if (Karma <= 11 && Karma > 8) //Kind 4  -2 -3 -4
+        else if (DataManager.instance.nowData.Karma <= 11 && DataManager.instance.nowData.Karma > 8) //Kind 4  -2 -3 -4
         {
             karmaIcon.GetComponent<Image>().sprite = KarmaIcons[10];
         }
-        else if (Karma <= 14 && Karma > 11) //Kind 5  -2 -3 -4
+        else if (DataManager.instance.nowData.Karma <= 14 && DataManager.instance.nowData.Karma > 11) //Kind 5  -2 -3 -4
         {
             karmaIcon.GetComponent<Image>().sprite = KarmaIcons[11];
         }
-        else if (Karma > 14) //Kind 1  -2 -3 -4
+        else if (DataManager.instance.nowData.Karma > 14) //Kind 1  -2 -3 -4
         {
             karmaIcon.GetComponent<Image>().sprite = KarmaIcons[12];
         }
@@ -198,20 +206,22 @@ public class GameManager : MonoBehaviour
     public void GardenReset()
     {
         int plantNum = Random.Range(4, 7); //4~6종류 
-        for (int i = 0;  i < plantNum; i++)
+        for (int i = 0;  i < 9; i++)
         {
-            GardenPlants[i].SetActive(true);
-        }
-        for (int i =0; i < PotionQuantity.Length; i++)
-        {
-            PotionQuantity[i] = 0;
+            if (i < plantNum)
+            {
+                GardenPlants[i].SetActive(true);
+            }
+            else
+            {
+                //GardenPlants[i].SetActive(false);
+            }
         }
         
     }
     private void IgnoreCollision()
     {
         Physics2D.IgnoreCollision(whole.GetComponent<BoxCollider2D>(), potion.GetComponent<CircleCollider2D>());
-        
     }
     public void ArrowRight()
     {

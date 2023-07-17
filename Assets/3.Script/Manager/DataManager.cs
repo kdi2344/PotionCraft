@@ -6,25 +6,24 @@ using System.IO;
 public class Data
 {
     public int DayCount = 1;
-    public bool isFirstCustomer = true;
+    //public bool isFirstStart = true;
     public int Coin = 100;
     public int Success = 0;
     public int PopulLevel = 0;
     public int Karma = 0;
 
     public int[] IngreQuantity = { 4, 4, 4, 4, 0, 0, 0, 0, 0 };
-    public int[] PotionQuatnity = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-    public PotionDetail[] PotionDetails;
+    public int[] PotionQuantity = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    public PotionDetail[] PotionDetails = new PotionDetail[9];
 }
 
 public class DataManager : MonoBehaviour
 {
-
     public static DataManager instance = null;
 
-    Data nowData = new Data();
+    public Data nowData = new Data();
 
-    string path;
+    public string path;
     string fileName = "save";
 
     private void Awake()
@@ -39,22 +38,21 @@ public class DataManager : MonoBehaviour
         }
         DontDestroyOnLoad(this.gameObject);
 
-        path = Application.persistentDataPath + "/";
-    }
-
-    private void Start()
-    {
-        
+        path = Application.persistentDataPath + "/save";
     }
 
     public void SaveData()
     {
         string strData = JsonUtility.ToJson(nowData);
-        File.WriteAllText(path + fileName, strData);
+        File.WriteAllText(path, strData);
     }
     public void LoadData()
     {
-        string strData = File.ReadAllText(path + fileName);
+        string strData = File.ReadAllText(path);
         nowData = JsonUtility.FromJson<Data>(strData);
+    }
+    public void DataClear()
+    {
+        nowData = new Data();
     }
 }

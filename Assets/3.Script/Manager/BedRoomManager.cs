@@ -29,12 +29,13 @@ public class BedRoomManager : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
         }
         DarkPanel.gameObject.SetActive(false);
-        GameManager.instance.DayCount++;
+        DataManager.instance.nowData.DayCount++;
         GameManager.instance.GardenReset();
         GameManager.instance.CustomerSet();
         GameManager.instance.isFirstCustomer = true;
         CustomerManager.instance.CurrentCustomer = 0;
         CustomerManager.instance.order = 0;
+        DataManager.instance.SaveData();
     }
     public void BtnCancel()
     {

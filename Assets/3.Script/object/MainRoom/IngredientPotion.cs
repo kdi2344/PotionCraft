@@ -49,7 +49,7 @@ public class IngredientPotion : MonoBehaviour, IPointerEnterHandler, IPointerExi
         {
             Vector3 pos = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y, 0);
             made = Instantiate(InvenItemManager.instance.Prefabs[(int)GetComponent<IngredientPotion>().btnIngre], pos, Quaternion.identity, InvenItemManager.instance.MakeRoom.transform);
-            GameManager.instance.IngreQuantity[(int)GetComponent<IngredientPotion>().btnIngre] -= 1;
+            DataManager.instance.nowData.IngreQuantity[(int)GetComponent<IngredientPotion>().btnIngre] -= 1;
             made.GetComponent<SpriteRenderer>().sortingOrder += 1000;
             made.GetComponent<Rigidbody2D>().gravityScale = 0;
             if (made.GetComponent<CircleCollider2D>()) made.GetComponent<CircleCollider2D>().isTrigger = true;
@@ -83,7 +83,7 @@ public class IngredientPotion : MonoBehaviour, IPointerEnterHandler, IPointerExi
             made.GetComponent<Potion>().PotionData = GameManager.instance.PotionDetails[btnPotion];
             made.GetComponent<Potion>().index = btnPotion;
             made.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionBottleColor[(int)potionInfo.bottle];
-            made.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().color = GameManager.instance.PotionColors[(int)potionInfo.effect[0]];
+            made.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().color = GameManager.instance.PotionColors[(int)potionInfo.effect];
             made.transform.GetChild(0).GetChild(1).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionBottleShadow[(int)potionInfo.bottle];
             made.transform.GetChild(0).GetChild(2).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionBottleScratch[(int)potionInfo.bottle];
             made.transform.GetChild(0).GetChild(3).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionBottleCork[(int)potionInfo.bottle];
@@ -92,7 +92,7 @@ public class IngredientPotion : MonoBehaviour, IPointerEnterHandler, IPointerExi
             made.transform.GetChild(1).GetChild(1).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionStickerOutline[(int)potionInfo.sticker];
             made.transform.GetChild(1).GetChild(2).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionStickerIcon[(int)potionInfo.icon];
 
-            GameManager.instance.PotionQuantity[btnPotion] -= 1;
+            DataManager.instance.nowData.PotionQuantity[btnPotion] -= 1;
             if (made.CompareTag("potion"))
             {
                 for (int i = 0; i < made.transform.childCount; i++)

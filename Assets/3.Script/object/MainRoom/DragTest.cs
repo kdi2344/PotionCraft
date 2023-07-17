@@ -224,7 +224,7 @@ public class DragTest : MonoBehaviour
             }
             else if (selectedObject != null && selectedObject.CompareTag("potion") && isInven)
             {
-                GameManager.instance.PotionQuantity[selectedObject.GetComponent<Potion>().index]++;
+                DataManager.instance.nowData.PotionQuantity[selectedObject.GetComponent<Potion>().index]++;
                 InvenItemManager.instance.UpdateInventory();
                 Destroy(selectedObject);
                 selectedObject = null;
@@ -251,7 +251,7 @@ public class DragTest : MonoBehaviour
             }
             if (selectedObject != null && selectedObject.CompareTag("ingredient") && isInven) //인벤토리 위에서 놓으면
             {
-                GameManager.instance.IngreQuantity[selectedObject.transform.GetChild(selectedObject.transform.childCount - 1).GetComponent<ChildData>().ingreType]++;
+                DataManager.instance.nowData.IngreQuantity[selectedObject.transform.GetChild(selectedObject.transform.childCount - 1).GetComponent<ChildData>().ingreType]++;
                 InvenItemManager.instance.UpdateInventory();
                 Destroy(selectedObject);
                 selectedObject = null;

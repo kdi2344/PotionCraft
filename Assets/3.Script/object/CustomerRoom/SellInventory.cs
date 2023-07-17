@@ -85,7 +85,7 @@ public class SellInventory : MonoBehaviour
                 transform.GetChild(i).gameObject.SetActive(false);
             }
         }
-        if (SellTotal < 1 || SellTotal > GameManager.instance.Coin) { BtnBuy.GetComponent<Button>().interactable = false; }
+        if (SellTotal < 1 || SellTotal > DataManager.instance.nowData.Coin) { BtnBuy.GetComponent<Button>().interactable = false; }
         else { BtnBuy.GetComponent<Button>().interactable = true; }
         BtnBuy.transform.GetChild(0).GetComponent<Text>().text = string.Format("거래가 성립되었습니다! 골드(        {0:D3}개)를 내게 됩니다", SellTotal);
         

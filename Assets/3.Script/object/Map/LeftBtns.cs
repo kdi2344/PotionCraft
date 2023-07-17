@@ -45,28 +45,28 @@ public class LeftBtns : MonoBehaviour
 
     private void AddPotionInven() //인벤토리에 포션 추가 
     {
-        for (int i = 0; i < GameManager.instance.PotionDetails.Length; i++)
+        for (int i = 0; i < DataManager.instance.nowData.PotionDetails.Length; i++)
         {
-            if (GameManager.instance.PotionDetails[i].ingredients.Count == 0)
+            if (DataManager.instance.nowData.PotionDetails[i].ingredients.Count == 0)
             {
-                GameManager.instance.PotionDetails[i].PotionName = FindObjectOfType<BellowHandle>().input.transform.GetChild(0).GetChild(2).GetComponent<TMP_Text>().text;
-                if (GameManager.instance.PotionDetails[i].PotionName == null) GameManager.instance.PotionDetails[i].PotionName = "새 포션";
-                GameManager.instance.PotionDetails[i].effect.Add(GameManager.instance.currentPotionEffect);
+                DataManager.instance.nowData.PotionDetails[i].PotionName = FindObjectOfType<BellowHandle>().input.transform.GetChild(0).GetChild(2).GetComponent<TMP_Text>().text;
+                if (DataManager.instance.nowData.PotionDetails[i].PotionName == null) DataManager.instance.nowData.PotionDetails[i].PotionName = "새 포션";
+                DataManager.instance.nowData.PotionDetails[i].effect = GameManager.instance.currentPotionEffect;
 
                 //bottle 설정 (일단은 기본) 추후에 수정
-                GameManager.instance.PotionDetails[i].bottle = InvenItemManager.BottleShape.normal;
-                GameManager.instance.PotionDetails[i].sticker = InvenItemManager.BottleSticker.normal;
-                GameManager.instance.PotionDetails[i].icon = (InvenItemManager.Potion)(int)GameManager.instance.currentPotionEffect;
+                DataManager.instance.nowData.PotionDetails[i].bottle = InvenItemManager.BottleShape.normal;
+                DataManager.instance.nowData.PotionDetails[i].sticker = InvenItemManager.BottleSticker.normal;
+                DataManager.instance.nowData.PotionDetails[i].icon = (InvenItemManager.Potion)(int)GameManager.instance.currentPotionEffect;
                 //level설정 기본 1렙
-                GameManager.instance.PotionDetails[i].level = 1;
-                GameManager.instance.PotionQuantity[i]++;
+                DataManager.instance.nowData.PotionDetails[i].level = 1;
+                DataManager.instance.nowData.PotionQuantity[i]++;
                 FindObjectOfType<InvenItemManager>().UpdateInventory();
 
                 for (int j = 0; j < FindObjectOfType<Pot>().containIngredients.Length; j++)
                 {
                     if (FindObjectOfType<Pot>().containIngredients[j] > 0)
                     {
-                        GameManager.instance.PotionDetails[i].ingredients.Add((InvenItemManager.Ingredient)j);
+                        DataManager.instance.nowData.PotionDetails[i].ingredients.Add((InvenItemManager.Ingredient)j);
                     }
                 }
                 break;
