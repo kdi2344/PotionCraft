@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject up;
     [SerializeField] private GameObject down;
 
+    [SerializeField] private Text textDay;
     [SerializeField] private Text textCoin;
     [SerializeField] private Text textPoPul;
     [SerializeField] private Text textKarma;
@@ -103,8 +104,8 @@ public class GameManager : MonoBehaviour
             }
             
         }
+        textDay.text = DayCount.ToString();
         textPoPul.text = Success.ToString() + "/" + PopulLevels[PopulLevel];
-
         textKarma.text = Karma.ToString();
         SetKarma();
     }
@@ -163,8 +164,13 @@ public class GameManager : MonoBehaviour
             karmaIcon.GetComponent<Image>().sprite = KarmaIcons[12];
         }
     }
-    private void CustomerSet() //손님은 하루에 5명 2명손님 1명 상인 2명손님
+    public void CustomerSet() //손님은 하루에 5명 2명손님 1명 상인 2명손님
     {
+        for (int i =0; i < MadeCustomers.Count; i++)
+        {
+            if (MadeCustomers[i].activeSelf) Destroy(MadeCustomers[i]);
+        }
+        MadeCustomers.Clear();
         for (int i =0; i < customerDetails.Length; i++)
         {
             if (i != 2)
@@ -189,7 +195,7 @@ public class GameManager : MonoBehaviour
 
         }
     }
-    private void GardenReset()
+    public void GardenReset()
     {
         int plantNum = Random.Range(4, 7); //4~6종류 
         for (int i = 0;  i < plantNum; i++)

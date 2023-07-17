@@ -23,6 +23,12 @@ public class CustomerManager : MonoBehaviour
     [SerializeField] Transform CustomerCanvas;
     [SerializeField] GameObject[] UIPrefabs;
 
+    private int ShopperNum; //몇종류를 팔지 
+    public int[] ShopperType; //0~9중에 누구를 팔지 ShopperType[ShopperNum]
+    public int[] ShopperQuantity = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    public int[] SellQuantity = { 0, 0, 0, 0, 0, 0, 0, 0, 0 }; //산다고 누른거 양
+    public int[] ShopperPrice = { 0, 0, 0, 0, 0, 0, 0, 0, 0 }; //한개당 가격
+
     public string[] healMents;
     public string[] poisonMents;
     public string[] sleepMents;
@@ -44,6 +50,7 @@ public class CustomerManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        ShoppingList();
     }
     private void Update()
     {
@@ -113,6 +120,47 @@ public class CustomerManager : MonoBehaviour
                 ShopUIs.SetActive(false);
             }
         }
+    }
+    public void BtnBuy()
+    {
+        GameManager.instance.Coin -= FindObjectOfType<SellInventory>().SellTotal;
+        FindObjectOfType<SellInventory>().BtnBuy.GetComponent<Button>().interactable = false;
+        FindObjectOfType<SellInventory>().SellTotal = 0;
+        for (int i =0; i < 9; i++)
+        {
+            GameManager.instance.IngreQuantity[i] += SellQuantity[i];
+            SellQuantity[i] = 0;
+        }
+        FindObjectOfType<InvenItemManager>().UpdateInventory();
+        FindObjectOfType<SellInventory>().UpdateInventory();
+    }
+    private void ShoppingList()
+    {
+        ShopperNum = Random.Range(3, 7);  //파는 종류 개수
+        ShopperType = new int[ShopperNum];  //파는 종류 정하기
+
+        for (int i = 0; i < ShopperNum; i++)
+        {
+            ShopperType[i] = Random.Range(0, 9); 
+            bool isSame = false; 
+
+            for (int j = 0; j < i; j++)
+            {
+                if (ShopperType[i] == ShopperType[j])
+                {
+                    isSame = true; 
+                    break;
+                }
+            }
+            if (isSame) continue; // 다시 Q뽑아
+        }
+
+        for (int i =0; i< ShopperNum; i++)
+        {
+            ShopperQuantity[ShopperType[i]] = Random.Range(3, 8); //3개부터 7개까지 수량 결정
+            ShopperPrice[ShopperType[i]] = Random.Range(5, 26); //5~25원 사이에 랜덤 가격
+        }
+
     }
 
     public void CheckPotion()
