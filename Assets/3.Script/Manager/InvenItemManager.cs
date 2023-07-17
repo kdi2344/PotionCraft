@@ -79,7 +79,7 @@ public class InvenItemManager : MonoBehaviour
             }
         }
         PotionType = 0;
-        for (int i =0; i < DataManager.instance.nowData.PotionQuantity.Length; i++)
+        for (int i =0; i < DataManager.instance.nowData.PotionQuantity.Count; i++)
         {
             if (DataManager.instance.nowData.PotionQuantity[i] > 0)
             {
@@ -170,24 +170,27 @@ public class InvenItemManager : MonoBehaviour
                     {
                         content.transform.GetChild(j + 5).gameObject.SetActive(true);
                         content.transform.GetChild(j + 5).transform.GetChild(i % 3).gameObject.SetActive(true);
-                        for (int k = 0 + m; k < DataManager.instance.nowData.PotionQuantity.Length; k++)
+                        for (int k = 0 + m; k < DataManager.instance.nowData.PotionQuantity.Count; k++)
                         {
                             if (DataManager.instance.nowData.PotionQuantity[k] > 0)
                             {                                                                  //potion    //bottle //color shadow scratch cork outline
-                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>().sprite = potionBottleColor[(int)DataManager.instance.nowData.PotionDetails[k].bottle];
-                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>().color = GameManager.instance.PotionColors[(int)(DataManager.instance.nowData.PotionDetails[k].effect)];
-                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(0).GetChild(0).GetChild(1).GetComponent<Image>().sprite = potionBottleShadow[(int)DataManager.instance.nowData.PotionDetails[k].bottle];
-                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(0).GetChild(0).GetChild(2).GetComponent<Image>().sprite = potionBottleScratch[(int)DataManager.instance.nowData.PotionDetails[k].bottle];
-                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(0).GetChild(0).GetChild(3).GetComponent<Image>().sprite = potionBottleCork[(int)DataManager.instance.nowData.PotionDetails[k].bottle];
-                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(0).GetChild(0).GetChild(4).GetComponent<Image>().sprite = potionBottleOutline[(int)DataManager.instance.nowData.PotionDetails[k].bottle];
+                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>().sprite = potionBottleColor[(int)DataManager.instance.nowData.PotionBottle[k]];
+                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>().color = GameManager.instance.PotionColors[(int)(DataManager.instance.nowData.PotionEffect[k])];
+                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(0).GetChild(0).GetChild(1).GetComponent<Image>().sprite = potionBottleShadow[(int)DataManager.instance.nowData.PotionBottle[k]];
+                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(0).GetChild(0).GetChild(2).GetComponent<Image>().sprite = potionBottleScratch[(int)DataManager.instance.nowData.PotionBottle[k]];
+                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(0).GetChild(0).GetChild(3).GetComponent<Image>().sprite = potionBottleCork[(int)DataManager.instance.nowData.PotionBottle[k]];
+                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(0).GetChild(0).GetChild(4).GetComponent<Image>().sprite = potionBottleOutline[(int)DataManager.instance.nowData.PotionBottle[k]];
                                 //sticker //color outline icon
-                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(0).GetChild(1).GetChild(0).GetComponent<Image>().sprite = potionStickerColors[(int)DataManager.instance.nowData.PotionDetails[k].sticker];
-                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(0).GetChild(1).GetChild(1).GetComponent<Image>().sprite = potionStickerOutline[(int)DataManager.instance.nowData.PotionDetails[k].sticker];
-                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(0).GetChild(1).GetChild(2).GetComponent<Image>().sprite = potionStickerIcon[(int)DataManager.instance.nowData.PotionDetails[k].icon];
+                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(0).GetChild(1).GetChild(0).GetComponent<Image>().sprite = potionStickerColors[(int)DataManager.instance.nowData.PotionIcon[k]];
+                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(0).GetChild(1).GetChild(1).GetComponent<Image>().sprite = potionStickerOutline[(int)DataManager.instance.nowData.PotionIcon[k]];
+                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(0).GetChild(1).GetChild(2).GetComponent<Image>().sprite = potionStickerIcon[(int)DataManager.instance.nowData.PotionIcon[k]];
                                 content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetComponent<IngredientPotion>().btnType = Type.Potion; //해당 버튼의 타입은 ingredient
                                 content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetComponent<IngredientPotion>().btnPotion = k; //해당 버튼의 타입은 ingredient
                                 content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetComponent<IngredientPotion>().count = DataManager.instance.nowData.PotionQuantity[k];
-                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetComponent<IngredientPotion>().potionInfo = DataManager.instance.nowData.PotionDetails[k];
+                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetComponent<IngredientPotion>().bottle = DataManager.instance.nowData.PotionBottle[k];
+                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetComponent<IngredientPotion>().sticker = DataManager.instance.nowData.PotionSticker[k];
+                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetComponent<IngredientPotion>().effect = DataManager.instance.nowData.PotionEffect[k];
+                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetComponent<IngredientPotion>().icon = DataManager.instance.nowData.PotionIcon[k];
                                 if (DataManager.instance.nowData.PotionQuantity[k] < 10)
                                 {
                                     content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(1).GetChild(0).gameObject.SetActive(true);

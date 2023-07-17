@@ -14,6 +14,7 @@ public class PotionActive : MonoBehaviour
             collision.transform.GetChild(1).GetChild(1).gameObject.SetActive(false);
             collision.transform.GetChild(1).GetChild(2).gameObject.SetActive(false);
             GameManager.instance.currentPotionEffect = effect;
+            GameManager.instance.currentPotionIcon = effect;
         }
     }
 
@@ -26,6 +27,7 @@ public class PotionActive : MonoBehaviour
             collision.transform.GetChild(1).GetChild(1).gameObject.SetActive(false);
             collision.transform.GetChild(1).GetChild(2).gameObject.SetActive(false);
             GameManager.instance.currentPotionEffect = InvenItemManager.Potion.None;
+            GameManager.instance.currentPotionIcon = InvenItemManager.Potion.None;
         }
     }
 }

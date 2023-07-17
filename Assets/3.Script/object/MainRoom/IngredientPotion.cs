@@ -15,7 +15,11 @@ public class IngredientPotion : MonoBehaviour, IPointerEnterHandler, IPointerExi
     List<Vector3> rotations = new List<Vector3>();
     public MoveDetail move;
     GameObject line;
-    public PotionDetail potionInfo;
+    //public PotionDetail potionInfo;
+    public InvenItemManager.BottleShape bottle;
+    public InvenItemManager.BottleSticker sticker;
+    public InvenItemManager.Potion effect;
+    public InvenItemManager.Potion icon;
 
     [SerializeField] GameObject map;
 
@@ -83,17 +87,20 @@ public class IngredientPotion : MonoBehaviour, IPointerEnterHandler, IPointerExi
             made = Instantiate(InvenItemManager.instance.PotionPrefab, pos, Quaternion.identity, InvenItemManager.instance.MakeRoom.transform);
 
             //만들어진 potion 생긴모습 바꿔주기
-            made.GetComponent<Potion>().PotionData = GameManager.instance.PotionDetails[btnPotion];
+            made.GetComponent<Potion>().bottle = bottle;
+            made.GetComponent<Potion>().sticker = sticker;
+            made.GetComponent<Potion>().effect = effect;
+            made.GetComponent<Potion>().icon = icon;
             made.GetComponent<Potion>().index = btnPotion;
-            made.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionBottleColor[(int)potionInfo.bottle];
-            made.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().color = GameManager.instance.PotionColors[(int)potionInfo.effect];
-            made.transform.GetChild(0).GetChild(1).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionBottleShadow[(int)potionInfo.bottle];
-            made.transform.GetChild(0).GetChild(2).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionBottleScratch[(int)potionInfo.bottle];
-            made.transform.GetChild(0).GetChild(3).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionBottleCork[(int)potionInfo.bottle];
-            made.transform.GetChild(0).GetChild(4).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionBottleOutline[(int)potionInfo.bottle];
-            made.transform.GetChild(1).GetChild(0).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionStickerColors[(int)potionInfo.sticker];
-            made.transform.GetChild(1).GetChild(1).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionStickerOutline[(int)potionInfo.sticker];
-            made.transform.GetChild(1).GetChild(2).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionStickerIcon[(int)potionInfo.icon];
+            made.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionBottleColor[(int)bottle];
+            made.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().color = GameManager.instance.PotionColors[(int)effect];
+            made.transform.GetChild(0).GetChild(1).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionBottleShadow[(int)bottle];
+            made.transform.GetChild(0).GetChild(2).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionBottleScratch[(int)bottle];
+            made.transform.GetChild(0).GetChild(3).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionBottleCork[(int)bottle];
+            made.transform.GetChild(0).GetChild(4).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionBottleOutline[(int)bottle];
+            made.transform.GetChild(1).GetChild(0).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionStickerColors[(int)sticker];
+            made.transform.GetChild(1).GetChild(1).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionStickerOutline[(int)sticker];
+            made.transform.GetChild(1).GetChild(2).GetComponent<SpriteRenderer>().sprite = InvenItemManager.instance.potionStickerIcon[(int)icon];
 
             DataManager.instance.nowData.PotionQuantity[btnPotion] -= 1;
             if (made.CompareTag("potion"))

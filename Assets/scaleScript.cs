@@ -17,7 +17,11 @@ public class scaleScript : MonoBehaviour
         if (collision.CompareTag("potion"))
         {
             FindObjectOfType<DragTest>().isScale = false;
-            FindObjectOfType<CustomerManager>().currentPotion = null;
+            FindObjectOfType<CustomerManager>().currentPotionOb = null;
+            FindObjectOfType<CustomerManager>().currentBottle = InvenItemManager.BottleShape.normal;
+            FindObjectOfType<CustomerManager>().currentEffect = InvenItemManager.Potion.None;
+            FindObjectOfType<CustomerManager>().currentIcon = InvenItemManager.Potion.None;
+            FindObjectOfType<CustomerManager>().currentSticker = InvenItemManager.BottleSticker.normal;
         }
     }
 }

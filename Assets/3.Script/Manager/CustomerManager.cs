@@ -37,7 +37,11 @@ public class CustomerManager : MonoBehaviour
 
     public int PotionMoney = -1;
 
-    public PotionDetail currentPotion;
+    //public PotionDetail currentPotion;
+    public InvenItemManager.BottleShape currentBottle;
+    public InvenItemManager.Potion currentEffect;
+    public InvenItemManager.Potion currentIcon;
+    public InvenItemManager.BottleSticker currentSticker;
     public GameObject currentPotionOb;
 
     private void Awake()
@@ -166,7 +170,7 @@ public class CustomerManager : MonoBehaviour
 
     public void CheckPotion()
     {
-        if (currentPotion == null)
+        if (currentPotionOb == null)
         {
             coin.SetActive(false);
             isRightPotion = false;
@@ -176,7 +180,7 @@ public class CustomerManager : MonoBehaviour
         }
         else
         {
-            if (currentPotion.effect.ToString() == GameManager.instance.customerDetails[CurrentCustomer].needPotion.ToString())
+            if (currentEffect.ToString() == GameManager.instance.customerDetails[CurrentCustomer].needPotion.ToString())
             {
                 if (PotionMoney < 0) PotionMoney = Random.Range(10, 20);
                 CoinText.text = "(골드 " + PotionMoney + "     개에 판매)";

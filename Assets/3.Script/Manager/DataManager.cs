@@ -13,8 +13,15 @@ public class Data
     public int Karma = 0;
 
     public int[] IngreQuantity = { 4, 4, 4, 4, 4, 4, 4, 4, 4 };
-    public int[] PotionQuantity = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-    public PotionDetail[] PotionDetails = new PotionDetail[9];
+    //public int[] PotionQuantity = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+    public List<int> PotionQuantity = new List<int>();
+    public List<InvenItemManager.BottleShape> PotionBottle = new List<InvenItemManager.BottleShape>();
+    public List<InvenItemManager.Potion> PotionEffect = new List<InvenItemManager.Potion>();
+    public List<InvenItemManager.BottleSticker> PotionSticker = new List<InvenItemManager.BottleSticker>();
+    public List<InvenItemManager.Potion> PotionIcon = new List<InvenItemManager.Potion>();
+
+    //public PotionDetail[] PotionDetails = new PotionDetail[9]; -> build 파일에서는 ScriptableObject에 동적 할당이 거의 불가하다
 }
 
 public class DataManager : MonoBehaviour

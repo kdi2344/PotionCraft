@@ -14,7 +14,11 @@ public class GameManager : MonoBehaviour
     public bool isNextDay = false; //침대에서 저장하고 다음날 아침일 경우
     public bool CanMakePotion = false; //포션에 닿아있으면 활성화
     public bool CanSavePotion = false; //포션 만들어서 지금 저장 가능한 상태라면 활성화
+
     public InvenItemManager.Potion currentPotionEffect = InvenItemManager.Potion.None; //지금 만들 수 있는 포션 효과
+    public InvenItemManager.Potion currentPotionIcon = InvenItemManager.Potion.None; //지금 만드는 포션 아이콘 부분
+    public InvenItemManager.BottleShape currentBottleShape = InvenItemManager.BottleShape.normal; //지금 만드는 포션 병 모양
+    public InvenItemManager.BottleSticker currentSticker = InvenItemManager.BottleSticker.normal; //지금 만드는 포션 스티커 모양
 
     [SerializeField] GameObject whole;
     [SerializeField] GameObject potion;
@@ -52,7 +56,7 @@ public class GameManager : MonoBehaviour
     public Color[] PotionColors;
     // public int[] IngreQuantity = { 2, 2, 0, 0, 0, 0, 0, 0, 0 };
     // public int[] PotionQuantity = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-    public PotionDetail[] PotionDetails;
+    //public PotionDetail[] PotionDetails;
     private void Awake()
     {
         if (instance == null)
@@ -72,12 +76,10 @@ public class GameManager : MonoBehaviour
         {
             GardenReset();
             CustomerSet();
-            for (int i =0; i < PotionDetails.Length; i++)
-            {
-                PotionDetails[i].ingredients.Clear();
-                PotionDetails[i].effect = InvenItemManager.Potion.None;
-                DataManager.instance.nowData.PotionDetails[i] = PotionDetails[i];
-            }
+            DataManager.instance.nowData.PotionEffect.Clear();
+            DataManager.instance.nowData.PotionBottle.Clear();
+            DataManager.instance.nowData.PotionIcon.Clear();
+            DataManager.instance.nowData.PotionSticker.Clear();
         }
         else
         {

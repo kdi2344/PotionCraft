@@ -65,9 +65,12 @@ public class DragTest : MonoBehaviour
                 }
                 else if (hit.collider.CompareTag("potion"))
                 {
-                    if (FindObjectOfType<CustomerManager>().currentPotion != null)
+                    if (FindObjectOfType<CustomerManager>().currentPotionOb != null)
                     {
-                        FindObjectOfType<CustomerManager>().currentPotion = null;
+                        FindObjectOfType<CustomerManager>().currentBottle = InvenItemManager.BottleShape.normal;
+                        FindObjectOfType<CustomerManager>().currentEffect = InvenItemManager.Potion.None;
+                        FindObjectOfType<CustomerManager>().currentIcon = InvenItemManager.Potion.None;
+                        FindObjectOfType<CustomerManager>().currentSticker = InvenItemManager.BottleSticker.normal;
                         FindObjectOfType<CustomerManager>().currentPotionOb = null;
                         FindObjectOfType<CustomerManager>().CheckPotion();
                     }
@@ -217,7 +220,12 @@ public class DragTest : MonoBehaviour
             {
                 selectedObject.transform.localPosition = new Vector3(-21.2700005f, -3.5999999f, 0);
                 selectedObject.GetComponent<Rigidbody2D>().gravityScale = 0f;
-                FindObjectOfType<CustomerManager>().currentPotion = selectedObject.GetComponent<Potion>().PotionData;
+                //FindObjectOfType<CustomerManager>().currentPotion = selectedObject.GetComponent<Potion>().PotionData;
+                FindObjectOfType<CustomerManager>().currentBottle = selectedObject.GetComponent<Potion>().bottle;
+                FindObjectOfType<CustomerManager>().currentEffect = selectedObject.GetComponent<Potion>().effect;
+                FindObjectOfType<CustomerManager>().currentIcon = selectedObject.GetComponent<Potion>().icon;
+                FindObjectOfType<CustomerManager>().currentSticker = selectedObject.GetComponent<Potion>().sticker;
+
                 FindObjectOfType<CustomerManager>().currentPotionOb = selectedObject;
                 FindObjectOfType<CustomerManager>().CheckPotion();
                 selectedObject = null;

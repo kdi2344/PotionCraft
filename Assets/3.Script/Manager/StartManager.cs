@@ -28,6 +28,7 @@ public class StartManager : MonoBehaviour
     }
     public void BtnCheckData()
     {
+        SoundManager.instance.PlayEffect("btn");
         if (isSaveFile)
         {
             ui.SetActive(true);
@@ -53,6 +54,7 @@ public class StartManager : MonoBehaviour
     }
     public void BtnContinue()
     {
+        SoundManager.instance.PlayEffect("btn");
         DataManager.instance.LoadData();
         SceneManager.LoadScene(1);
     }
