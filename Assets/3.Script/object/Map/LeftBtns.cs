@@ -8,6 +8,28 @@ public class LeftBtns : MonoBehaviour
     [SerializeField] private Transform MapBottle;
     [SerializeField] private Transform Map;
     [SerializeField] public PotionDetail[] Potions; //Scriptable Object
+
+    [SerializeField] GameObject SelectBottleUI;
+    [SerializeField] GameObject SelectStickerUI;
+    [SerializeField] GameObject SelectIconUI;
+
+    public void BtnSelectBottle()
+    {
+        if (SelectBottleUI.activeSelf) SelectBottleUI.SetActive(false);
+        else SelectBottleUI.SetActive(true);
+    }
+
+    public void BtnSelectSticker()
+    {
+        if (SelectStickerUI.activeSelf) SelectStickerUI.SetActive(false);
+        else SelectStickerUI.SetActive(true);
+    }
+
+    public void BtnSelectIcon()
+    {
+        if (SelectIconUI.activeSelf) SelectIconUI.SetActive(false);
+        else SelectIconUI.SetActive(true);
+    }
     public void BtnRecipeSave() //포션 완료 버튼,, 이름 잘못지음
     {
         SoundManager.instance.PlayEffect("btn");
@@ -34,6 +56,7 @@ public class LeftBtns : MonoBehaviour
         GameManager.instance.currentPotionEffect = InvenItemManager.Potion.None;
         GameManager.instance.currentPotionIcon = InvenItemManager.Potion.None;
         GameManager.instance.currentSticker = InvenItemManager.BottleSticker.normal;
+        FindObjectOfType<LeftPotion>().UpdatePotion();
         //초기화
             FindObjectOfType<SpoonHandler>().move = null;
         //}
@@ -59,6 +82,7 @@ public class LeftBtns : MonoBehaviour
             if (GameManager.instance.currentBottleShape == DataManager.instance.nowData.PotionBottle[i] && GameManager.instance.currentSticker == DataManager.instance.nowData.PotionSticker[i] && GameManager.instance.currentPotionIcon == DataManager.instance.nowData.PotionIcon[i] && GameManager.instance.currentPotionEffect == DataManager.instance.nowData.PotionEffect[i])
             {
                 DataManager.instance.nowData.PotionQuantity[i]++;
+                FindObjectOfType<InvenItemManager>().UpdateInventory();
                 return;
             }
         }

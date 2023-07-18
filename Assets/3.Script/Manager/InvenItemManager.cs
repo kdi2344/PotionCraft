@@ -12,8 +12,8 @@ public class InvenItemManager : MonoBehaviour
     public enum Ingredient { WaterBloom = 0, WindBloom, LifeLeaf, MadMushroom, RainbowCap, Shadow, Thunder, WaterCap, WitchMushroom }
     public enum Type { Ingredient, Potion, Etc }
     public enum Potion { None =0, Heal, Poison, Sleep, Fire, Tree }
-    public enum BottleShape { normal = 0, one, two, three}
-    public enum BottleSticker { normal = 0, one, two, three}
+    public enum BottleShape { normal = 0, two, three, four, five, six, seven, eight }
+    public enum BottleSticker { normal = 0, two, three, four, five, six, seven, eight }
     //public enum StickerIcon { heart, poison }
 
     public GameObject MakeRoom;
@@ -27,7 +27,7 @@ public class InvenItemManager : MonoBehaviour
     [SerializeField] private MoveDetail[] moves;
 
     [Header("포션 인벤토리 설정용")]
-    public GameObject PotionPrefab;
+    public GameObject[] PotionPrefabs;
     //color shadow scratch cork outline
     [SerializeField] public Sprite[] potionBottleColor;
     [SerializeField] public Sprite[] potionBottleShadow;
@@ -181,8 +181,8 @@ public class InvenItemManager : MonoBehaviour
                                 content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(0).GetChild(0).GetChild(3).GetComponent<Image>().sprite = potionBottleCork[(int)DataManager.instance.nowData.PotionBottle[k]];
                                 content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(0).GetChild(0).GetChild(4).GetComponent<Image>().sprite = potionBottleOutline[(int)DataManager.instance.nowData.PotionBottle[k]];
                                 //sticker //color outline icon
-                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(0).GetChild(1).GetChild(0).GetComponent<Image>().sprite = potionStickerColors[(int)DataManager.instance.nowData.PotionIcon[k]];
-                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(0).GetChild(1).GetChild(1).GetComponent<Image>().sprite = potionStickerOutline[(int)DataManager.instance.nowData.PotionIcon[k]];
+                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(0).GetChild(1).GetChild(0).GetComponent<Image>().sprite = potionStickerColors[(int)DataManager.instance.nowData.PotionSticker[k]];
+                                content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(0).GetChild(1).GetChild(1).GetComponent<Image>().sprite = potionStickerOutline[(int)DataManager.instance.nowData.PotionSticker[k]];
                                 content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetChild(0).GetChild(1).GetChild(2).GetComponent<Image>().sprite = potionStickerIcon[(int)DataManager.instance.nowData.PotionIcon[k]];
                                 content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetComponent<IngredientPotion>().btnType = Type.Potion; //해당 버튼의 타입은 ingredient
                                 content.transform.GetChild(j + 5).transform.GetChild(i % 3).GetComponent<IngredientPotion>().btnPotion = k; //해당 버튼의 타입은 ingredient

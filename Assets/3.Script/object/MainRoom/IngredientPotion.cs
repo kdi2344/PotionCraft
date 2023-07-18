@@ -84,7 +84,8 @@ public class IngredientPotion : MonoBehaviour, IPointerEnterHandler, IPointerExi
         else //Potion이면 
         {
             Vector3 pos = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y, 0);
-            made = Instantiate(InvenItemManager.instance.PotionPrefab, pos, Quaternion.identity, InvenItemManager.instance.MakeRoom.transform);
+
+            made = Instantiate(InvenItemManager.instance.PotionPrefabs[(int)bottle], pos, Quaternion.identity, InvenItemManager.instance.MakeRoom.transform);
 
             //만들어진 potion 생긴모습 바꿔주기
             made.GetComponent<Potion>().bottle = bottle;
