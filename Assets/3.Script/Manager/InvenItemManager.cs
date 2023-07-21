@@ -314,5 +314,96 @@ public class InvenItemManager : MonoBehaviour
                 content.transform.GetChild(1).gameObject.SetActive(false);
             }
         }
+        else if (currentTab == Tab.Potion)
+        {
+            CheckType();
+            if (PotionType > 0) //포션 부분
+            {
+                int m = 0;
+                content.transform.GetChild(0).gameObject.SetActive(true); //potion Line 
+                for (int i = 0; i < 9; i++)
+                {
+                    int j = i / 3;
+                    if (i < PotionType)
+                    {
+                        content.transform.GetChild(j + 1).gameObject.SetActive(true);
+                        content.transform.GetChild(j + 1).transform.GetChild(i % 3).gameObject.SetActive(true);
+                        for (int k = 0 + m; k < DataManager.instance.nowData.PotionQuantity.Count; k++)
+                        {
+                            if (DataManager.instance.nowData.PotionQuantity[k] > 0)
+                            {                                                                  //potion    //bottle //color shadow scratch cork outline
+                                content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>().sprite = potionBottleColor[(int)DataManager.instance.nowData.PotionBottle[k]];
+                                content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>().color = GameManager.instance.PotionColors[(int)(DataManager.instance.nowData.PotionEffect[k])];
+                                content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetChild(0).GetChild(0).GetChild(1).GetComponent<Image>().sprite = potionBottleShadow[(int)DataManager.instance.nowData.PotionBottle[k]];
+                                content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetChild(0).GetChild(0).GetChild(2).GetComponent<Image>().sprite = potionBottleScratch[(int)DataManager.instance.nowData.PotionBottle[k]];
+                                content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetChild(0).GetChild(0).GetChild(3).GetComponent<Image>().sprite = potionBottleCork[(int)DataManager.instance.nowData.PotionBottle[k]];
+                                content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetChild(0).GetChild(0).GetChild(4).GetComponent<Image>().sprite = potionBottleOutline[(int)DataManager.instance.nowData.PotionBottle[k]];
+                                //sticker //color outline icon
+                                content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetChild(0).GetChild(1).GetChild(0).GetComponent<Image>().sprite = potionStickerColors[(int)DataManager.instance.nowData.PotionSticker[k]];
+                                content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetChild(0).GetChild(1).GetChild(1).GetComponent<Image>().sprite = potionStickerOutline[(int)DataManager.instance.nowData.PotionSticker[k]];
+                                content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetChild(0).GetChild(1).GetChild(2).GetComponent<Image>().sprite = potionStickerIcon[(int)DataManager.instance.nowData.PotionIcon[k]];
+                                content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetComponent<IngredientPotion>().btnType = Type.Potion; //해당 버튼의 타입은 ingredient
+                                content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetComponent<IngredientPotion>().btnPotion = k; //해당 버튼의 타입은 ingredient
+                                content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetComponent<IngredientPotion>().count = DataManager.instance.nowData.PotionQuantity[k];
+                                content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetComponent<IngredientPotion>().bottle = DataManager.instance.nowData.PotionBottle[k];
+                                content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetComponent<IngredientPotion>().sticker = DataManager.instance.nowData.PotionSticker[k];
+                                content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetComponent<IngredientPotion>().effect = DataManager.instance.nowData.PotionEffect[k];
+                                content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetComponent<IngredientPotion>().icon = DataManager.instance.nowData.PotionIcon[k];
+                                if (DataManager.instance.nowData.PotionQuantity[k] < 10)
+                                {
+                                    content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetChild(1).GetChild(0).gameObject.SetActive(true);
+                                    content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetChild(1).GetChild(1).gameObject.SetActive(false);
+                                    content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetChild(1).GetChild(0).GetChild(2).GetComponent<Text>().text = DataManager.instance.nowData.PotionQuantity[k].ToString(); //해당 재료의 개수
+                                }//한자리
+                                else
+                                {
+                                    content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetChild(1).GetChild(0).gameObject.SetActive(false);
+                                    content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetChild(1).GetChild(1).gameObject.SetActive(true);
+                                    content.transform.GetChild(j + 1).transform.GetChild(i % 3).GetChild(1).GetChild(1).GetChild(3).GetComponent<Text>().text = DataManager.instance.nowData.PotionQuantity[k].ToString(); //해당 재료의 개수
+                                }//두자리
+
+                                m = k + 1;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (content.transform.GetChild(j + 1).transform.GetChild(i % 3).gameObject.activeSelf)
+                        {
+                            content.transform.GetChild(j + 1).transform.GetChild(i % 3).gameObject.SetActive(false);
+                        }
+                    }
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    int a = 0;
+                    for (int j = 0; j < content.transform.GetChild(i + 1).childCount; j++)
+                    {
+                        if (content.transform.GetChild(i + 1).GetChild(j).gameObject.activeSelf) a++;
+                    }
+                    if (a == 0) //자식들이 다 꺼져있으면
+                    {
+                        content.transform.GetChild(i + 1).gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        content.transform.GetChild(i + 1).gameObject.SetActive(true);
+                    }
+                } //slotLine 확인해서 키고 끄기
+            }
+            else
+            {
+                content.transform.GetChild(0).gameObject.SetActive(false); //potion Line 끄기
+                content.transform.GetChild(1).GetChild(0).gameObject.SetActive(false);
+                content.transform.GetChild(1).gameObject.SetActive(false);
+                content.transform.GetChild(2).gameObject.SetActive(false);
+                content.transform.GetChild(3).gameObject.SetActive(false);
+            }
+        }
+        else if (currentTab == Tab.Etc)
+        {
+            content.transform.GetChild(0).gameObject.SetActive(false);
+        }
     }
 }
